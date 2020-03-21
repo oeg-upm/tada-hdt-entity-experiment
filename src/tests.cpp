@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "t2dv2.h"
+#include<tada_hdt_entity/entity.h>
 
 namespace {
 
