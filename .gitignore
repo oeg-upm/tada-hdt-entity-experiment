@@ -1,5 +1,7 @@
 
+bin
 *.qbs
+*.qbs.user
 
 # Prerequisites
 *.d

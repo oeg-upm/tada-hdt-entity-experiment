@@ -10,7 +10,8 @@ NOMSOURCES = t2dv2.cpp
 SOURCES = $(NOMSOURCES) main.cpp
 TSOURCES = $(NOMSOURCES) tests.cpp
 
-LIBS = -lhdt -pthread -leasylogger -ltabularparser -ltadahdtentity
+#LIBS = -lhdt -pthread -leasylogger -ltabularparser -ltadahdtentity
+LIBS = -lhdt -pthread -leasylogger -ltabularparser 
 TLIBS = $(LIBS) -lgtest
 
 CC = g++
@@ -83,18 +84,9 @@ libmac:
 liblinux:
 	$(CC) $(CXXFLAGS) -fPIC -shared $(NOMSOURCES) -o  $(LIBNAME)
 
-install:
-	mkdir -p  $(HDIR)
-	cp $(NOMHEADERS) $(HDIR)
-	$(MAKE) lib
-	mv $(LIBNAME)  $(LIBDIR)
-	ln -fs $(LIBDIR)/$(LIBNAME)  $(LIBDIR)/$(LIBALIAS)
-	echo -e "tada_hdt_entity_example lib is installed"
-	$(MAKE) clean
-
 
 run: 
-	bin/tadaeexample
+	bin/tadaeexperiment
 	
 
 test:
