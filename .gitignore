@@ -1,3 +1,6 @@
+
+*.qbs
+
 # Prerequisites
 *.d
 
