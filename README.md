@@ -8,3 +8,8 @@ Run experiments using tada-hdt-entity library
 # Datasets
 * T2Dv2
 
+# T2Dv2
+`classes_GS.csv` and updated version of the original one
+**the original one has some mislabeled entries**
+`subject_column_gold.csv`
+**these too files are taked from tada-gam experiment**

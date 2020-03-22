@@ -1,4 +1,7 @@
-
+*.autosave
+*hdt.index.*
+*.hdt
+.DS_Store
 bin
 *.qbs
 *.qbs.user

@@ -10,8 +10,7 @@ NOMSOURCES = t2dv2.cpp
 SOURCES = $(NOMSOURCES) main.cpp
 TSOURCES = $(NOMSOURCES) tests.cpp
 
-#LIBS = -lhdt -pthread -leasylogger -ltabularparser -ltadahdtentity
-LIBS = -lhdt -pthread -leasylogger -ltabularparser 
+LIBS = -lhdt -pthread -leasylogger -ltabularparser -ltadahdtentity
 TLIBS = $(LIBS) -lgtest
 
 CC = g++
