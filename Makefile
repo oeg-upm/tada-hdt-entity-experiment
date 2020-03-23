@@ -104,4 +104,4 @@ clean:
 	-rm -Rf build
 	-rm -Rf bin
 	-rm -Rf $(COVCLEANFILES)
-	-rm -Rf test.hdt test.hdt.index.v1-1 test.log
+	-rm -Rf test.hdt test.hdt.index.v1-1 test.log entity.log

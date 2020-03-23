@@ -6,6 +6,7 @@
 #include<list>
 #include<unordered_map>
 
+#include<tada_hdt_entity/entity.h>
 #include <easy_logger/easy_logger.h>
 #include <HDTManager.hpp>
 
@@ -18,13 +19,18 @@ class T2Dv2 {
         void set_file_sep(string);
         string get_file_sep();
         std::list<string>* annotate_column(string fname, unsigned int col_idx, bool context, double alpha);
+        EntityAnn* get_ea_model(string fname, unsigned int col_idx, bool context);
         bool evaluate_column(string fname,string class_uri, unsigned int col_idx, bool context, double alpha);
+        bool evaluate_column_at_k(EntityAnn* ea,string class_uri, double alpha, unsigned long k_max);
+        void run_test(double from_alpha, double to_alpha, double step, unsigned long k);
         long get_k(string fname);
         void print_k();
         void computer_scores(long k);
         float get_prec();
         float get_rec();
         float get_f1();
+        string clean_str(string);
+        double get_median(std::list<double>* a);
     private:
         string m_classes_file_dir;
         string m_files_dir;

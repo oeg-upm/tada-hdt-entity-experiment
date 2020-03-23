@@ -9,7 +9,5 @@ Run experiments using tada-hdt-entity library
 * T2Dv2
 
 # T2Dv2
-`classes_GS.csv` and updated version of the original one
-**the original one has some mislabeled entries**
-`subject_column_gold.csv`
-**these too files are taked from tada-gam experiment**
+`classes_with_col_GS.csv`: this file contains the file names, the column id of the subject columns, and their classes
+This is update version from the `classes_GS.csv` provided by the T2Dv2. We changed the concept column with the subject column id and we fixed some mislabels.
