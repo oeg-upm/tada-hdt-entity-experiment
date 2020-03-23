@@ -1,10 +1,39 @@
-2020-3-22  18:54:38	evaluate_column> fname: AmateurBoxer1.csv
-2020-3-22  18:54:38	evaluate_column> fname: Boxer1.csv
-2020-3-22  18:54:38	evaluate_column> fname: Athletes1.csv
-2020-3-22  20:30:23	evaluate_column> fname: AmateurBoxer1.csv
-2020-3-22  20:30:23	evaluate_column> fname: Boxer1.csv
-2020-3-22  20:30:23	evaluate_column> fname: Athletes1.csv
-2020-3-22  20:32:4	evaluate_column> fname: AmateurBoxer1.csv
-2020-3-22  20:32:4	evaluate_column> fname: Boxer1.csv
-2020-3-22  20:32:4	evaluate_column> fname: Athletes1.csv
-2020-3-22  20:32:4	evaluate_column> fname: Athletes1.csv
+2020-3-23  17:6:6	evaluate_column> fname: AmateurBoxer1.csv
+2020-3-23  17:6:6	evaluate_column> fname: Boxer1.csv
+2020-3-23  17:6:6	evaluate_column> fname: Athletes1.csv
+2020-3-23  17:6:6	evaluate_column> fname: Athletes1.csv
+2020-3-23  17:49:2	evaluate_column> fname: AmateurBoxer1.csv
+2020-3-23  17:49:2	evaluate_column> fname: Boxer1.csv
+2020-3-23  17:49:2	evaluate_column> fname: Athletes1.csv
+2020-3-23  17:49:2	evaluate_column> fname: Athletes1.csv
+2020-3-23  17:51:2	evaluate_column> fname: AmateurBoxer1.csv
+2020-3-23  17:51:2	evaluate_column> fname: Boxer1.csv
+2020-3-23  17:51:2	evaluate_column> fname: Athletes1.csv
+2020-3-23  17:51:2	evaluate_column> fname: Athletes1.csv
+2020-3-23  18:8:20	evaluate_column> fname: AmateurBoxer1.csv
+2020-3-23  18:8:20	evaluate_column> fname: Boxer1.csv
+2020-3-23  18:8:20	evaluate_column> fname: Athletes1.csv
+2020-3-23  18:8:20	evaluate_column> fname: Athletes1.csv
+2020-3-23  18:8:46	evaluate_column> fname: Boxer1.csv
+2020-3-23  18:12:29	evaluate_column> fname: Boxer1.csv
+2020-3-23  18:12:29	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/Athlete
+2020-3-23  18:12:29	evaluate_column> candidate 1 is: http://dbpedia.org/ontology/Boxer
+2020-3-23  18:13:18	evaluate_column> fname: Boxer1.csv
+2020-3-23  18:13:18	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/GolfPlayer
+2020-3-23  18:13:18	evaluate_column> candidate 1 is: http://dbpedia.org/ontology/Boxer
+2020-3-23  18:15:42	evaluate_column> fname: Boxer1.csv
+2020-3-23  18:15:42	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/Boxer
+2020-3-23  18:48:24	evaluate_column> fname: AmateurBoxer1.csv
+2020-3-23  18:48:24	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/AmateurBoxer
+2020-3-23  18:48:24	evaluate_column> fname: Boxer1.csv
+2020-3-23  18:48:24	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/Boxer
+2020-3-23  18:48:24	evaluate_column> fname: Athletes1.csv
+2020-3-23  18:48:24	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/Athlete
+2020-3-23  18:48:24	evaluate_column> fname: Athletes1.csv
+2020-3-23  18:48:24	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/Athlete
+2020-3-23  18:49:40	evaluate_column> fname: AmateurBoxer1.csv
+2020-3-23  18:49:40	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/AmateurBoxer
+2020-3-23  18:49:40	evaluate_column> fname: Boxer1.csv
+2020-3-23  18:49:40	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/Boxer
+2020-3-23  18:49:40	evaluate_column> fname: Athletes1.csv
+2020-3-23  18:49:40	evaluate_column> candidate 0 is: http://dbpedia.org/ontology/Athlete

@@ -46,6 +46,7 @@ bool T2Dv2::evaluate_column(string fname,string class_uri, unsigned int col_idx,
     long k=0;
     m_logger->log("evaluate_column> fname: "+fname);
     for(auto it = candidates->cbegin();it!=candidates->cend();it++,k++){
+        m_logger->log("evaluate_column> candidate "+to_string(k)+" is: "+((*it)));
         if((*it)==class_uri){
             m_k->insert({fname,k});
             delete candidates;
