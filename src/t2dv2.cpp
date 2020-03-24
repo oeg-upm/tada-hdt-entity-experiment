@@ -1,6 +1,7 @@
 #include "t2dv2.h"
 #include<tada_hdt_entity/entity.h>
 #include<tabular_parser/parser.h>
+#include <climits>
 
 T2Dv2::T2Dv2(string hdt_dir, string log_file_dir, string classes_file_dir, string files_dir) {
     m_classes_file_dir = classes_file_dir;
@@ -109,9 +110,29 @@ bool T2Dv2::evaluate_column_at_k(EntityAnn* ea, string class_uri, double alpha, 
 }
 
 
+long T2Dv2::evaluate_column_get_k(EntityAnn* ea, string class_uri, double alpha) {
+    long k=0;
+    std::list<string>* candidates;
+    candidates = ea->recompute_f(alpha);
+    for(auto it = candidates->cbegin(); it!=candidates->cend(); it++, k++) {
+        m_logger->log("evaluate_column_at_k> candidate "+to_string(k)+" is: "+((*it)));
+        if((*it)==class_uri) {
+            delete candidates;
+            return k;
+        }
+        else {
+        }
+    }
+    k=-1;
+    delete candidates;
+    return false;
+}
+
+
 long T2Dv2::get_k(string fname) {
     return m_k->at(fname);
 }
+
 
 void T2Dv2::print_k() {
     cout << "\n\nprint k> \n";
@@ -120,7 +141,8 @@ void T2Dv2::print_k() {
     }
 }
 
-void T2Dv2::computer_scores(long k) {
+
+void T2Dv2::compute_scores(long k) {
     m_correct=m_incorrect=m_notfound = 0;
     m_prec=m_rec=m_f1 = 0.0;
     for(auto it=m_k->cbegin(); it!=m_k->cend(); it++) {
@@ -134,24 +156,33 @@ void T2Dv2::computer_scores(long k) {
             m_correct++;
         }
     }
-    float corr, incorr, notf;
-    corr = static_cast<float>(m_correct);
-    incorr = static_cast<float>(m_incorrect);
-    notf = static_cast<float>(m_notfound);
+    double corr, incorr, notf;
+    corr = static_cast<double>(m_correct);
+    incorr = static_cast<double>(m_incorrect);
+    notf = static_cast<double>(m_notfound);
     m_prec = corr / (corr+incorr);
     m_rec = corr / (corr+notf);
-    m_f1 = 2 * corr * incorr / (corr+incorr);
+    m_f1 = 2.0 * m_prec * m_rec / (m_prec+m_rec);
+    cout << "correct: "<<m_correct<<endl;
+    cout << "incorrect: "<<m_incorrect<<endl;
+    cout << "notfound: " << m_notfound<<endl;
+    cout << "Precision: "<<m_prec<<endl;
+    cout << "Recall: "<<m_rec<<endl;
+    cout << "F1: " << m_f1<<endl;
 }
 
-float T2Dv2::get_prec() {
+
+double T2Dv2::get_prec() {
     return m_prec;
 }
 
-float T2Dv2::get_rec() {
+
+double T2Dv2::get_rec() {
     return m_rec;
 }
 
-float T2Dv2::get_f1() {
+
+double T2Dv2::get_f1() {
     return m_f1;
 }
 
@@ -213,6 +244,75 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step, unsigned l
 }
 
 
+void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
+    std::list<std::list<string>*>*  data;
+    string class_uri, col_id_str, fname;
+    long k, kmin;
+    EntityAnn* ea;
+    unsigned int col_id;
+    //    double from_a,to_a;
+    std::list<double>* from_a_list = new std::list<double>;
+    std::list<double>* to_a_list = new std::list<double>;
+    double from_a, to_a;
+    std::list<string>::iterator col_iter;
+    Parser p(m_classes_file_dir);
+    data = p.parse_vertical();
+    for(auto it=data->cbegin(); it!=data->cend(); it++) {
+        //        for(auto it2=(*it)->cbegin(); it2!=(*it)->cend();it2++){
+        //            cout << (*it2) << "| ";
+        //        }
+        cout << "---------------\n";
+        col_iter = (*it)->begin();
+        fname = clean_str(*col_iter);
+        col_iter++;
+        col_id_str = clean_str(*col_iter);
+        col_id = static_cast<unsigned int>(stoul(col_id_str));
+        col_iter++;
+        class_uri = clean_str(*col_iter);
+        cout << "class_uri: " << class_uri<<endl;
+        cout << "col_idx: " << col_id_str <<endl;
+        cout << "fname: "<<fname<<endl;
+        ea = get_ea_model(fname, col_id, true);
+        //        ea->get_graph()->print_nodes();
+        from_a = to_a = -1;
+        kmin = LONG_MAX;
+        for(double a=from_alpha; a<=to_alpha; a+=step) {
+            k = evaluate_column_get_k(ea,class_uri,a);
+
+            if(k<kmin){
+                kmin = k;
+                from_a = a;
+                to_a = a;
+                from_a_list->push_back(from_a);
+            }
+            else if(k==kmin){
+                to_a = a;
+            }
+            if(k<=0){// the best k value is 0, so no need to continue, if k is -1 , then not found
+                break;
+            }
+        }
+        if(from_a >= 0.0 && kmin==0) {
+            for(double a=to_alpha; a>=from_alpha; a-=step) {
+                k = evaluate_column_get_k(ea,class_uri,a);
+                if(k==kmin){
+                    to_a = a;
+                    to_a_list->push_back(to_a);
+                    break;
+                }
+            }
+        }
+        else if(from_a>= 0.0){ // kmin != 0
+            to_a_list->push_back(to_a);
+        }
+        m_k->insert({fname,kmin});
+        delete ea;
+    }
+    cout << "Alpha from median: "<<get_median(from_a_list)<<endl;
+    cout << "Alpha to median: "<<get_median(to_a_list)<<endl;
+}
+
+
 string T2Dv2::clean_str(string s) {
     string c;
     unsigned long start_idx=0, len;
@@ -229,6 +329,7 @@ string T2Dv2::clean_str(string s) {
     //    cout << "<"<<s<<"> to <"<<c<<">\n";
     return c;
 }
+
 
 double T2Dv2::get_median(std::list<double>* a){
     unsigned long len;

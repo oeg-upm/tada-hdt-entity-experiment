@@ -1,6 +1,7 @@
 #ifndef T2DV2_H
 #define T2DV2_H
-
+ // pair
+#include <utility>
 #include<iostream>
 #include<string>
 #include<list>
@@ -22,13 +23,15 @@ class T2Dv2 {
         EntityAnn* get_ea_model(string fname, unsigned int col_idx, bool context);
         bool evaluate_column(string fname,string class_uri, unsigned int col_idx, bool context, double alpha);
         bool evaluate_column_at_k(EntityAnn* ea,string class_uri, double alpha, unsigned long k_max);
-        void run_test(double from_alpha, double to_alpha, double step, unsigned long k);
+        long evaluate_column_get_k(EntityAnn* ea,string class_uri, double alpha);
+        void run_test(double from_alpha, double to_alpha, double step, unsigned long k); // focusing on the alphas range
+        void run_test(double from_alpha, double to_alpha, double step); // focusing on the best k
         long get_k(string fname);
         void print_k();
-        void computer_scores(long k);
-        float get_prec();
-        float get_rec();
-        float get_f1();
+        void compute_scores(long k);
+        double get_prec();
+        double get_rec();
+        double get_f1();
         string clean_str(string);
         double get_median(std::list<double>* a);
     private:
@@ -39,7 +42,8 @@ class T2Dv2 {
         HDT * m_hdt;
         EasyLogger* m_logger;
         std::unordered_map<string,long>* m_k;// the result of each file
-        float m_prec, m_rec, m_f1;
+//        std::list<pair<double,double>>* alpha_ranges; // from_alpha, to_alpha
+        double m_prec, m_rec, m_f1;
 
 };
 
