@@ -118,7 +118,6 @@ namespace {
     }
 
     TEST(T2Dv2, Multi1) {
-        bool annotated_corr;
         unsigned long k=1;
         string fname="Athletes1.csv";
         string class_uri = dbo_prefix+"Athlete";
@@ -128,8 +127,6 @@ namespace {
     }
 
     TEST(T2Dv2, MultiWithScore) {
-        bool annotated_corr;
-        unsigned long k=1;
         string class_uri = dbo_prefix+"Athlete";
         T2Dv2* t2d = new T2Dv2(hdt_file,log_file,"test_files/classes_test.csv","test_files");
         t2d->run_test(0.0,1.0,0.05);

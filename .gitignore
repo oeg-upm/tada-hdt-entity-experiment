@@ -1,4 +1,5 @@
 
+local_*
 *.log
 *.autosave
 *hdt.index.*
