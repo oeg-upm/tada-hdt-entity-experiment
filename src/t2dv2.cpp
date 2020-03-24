@@ -79,7 +79,12 @@ bool T2Dv2::evaluate_column(string fname, string class_uri, unsigned int col_idx
             //            cout << "not the same: "<<(*it)<<endl;
         }
     }
-    k=-1;
+    if(candidates->size() == 0){
+        k = -1; // not found
+    }
+    else{
+        k=-2; // incorrect
+    }
     m_k->insert({fname, k});
     delete candidates;
     return false;
@@ -123,9 +128,18 @@ long T2Dv2::evaluate_column_get_k(EntityAnn* ea, string class_uri, double alpha)
         else {
         }
     }
-    k=-1;
+    if(candidates->size() == 0){
+        k = -1; // not found
+    }
+    else{
+        k=-2; // incorrect
+    }
+//    cout<< "\n\nevaluate_column_get_k> \n with size"<< candidates->size()<<"\n";
+//    cout <<"class uri<"<<class_uri<<"> and candidates: \n";
+//    ea->get_graph()->print_nodes();
+//    k=-1;
     delete candidates;
-    return false;
+    return k;
 }
 
 
@@ -149,7 +163,7 @@ void T2Dv2::compute_scores(long k) {
         if(it->second == -1) {
             m_notfound++;
         }
-        else if(it->second > k) {
+        else if(it->second > k || it->second==-2) {
             m_incorrect++;
         }
         else if(it->second <= k) {
@@ -279,16 +293,17 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
         for(double a=from_alpha; a<=to_alpha; a+=step) {
             k = evaluate_column_get_k(ea,class_uri,a);
 
-            if(k<kmin){
+            if(k<kmin && k>=0){
                 kmin = k;
                 from_a = a;
                 to_a = a;
-                from_a_list->push_back(from_a);
+                //from_a_list->push_back(from_a);
             }
             else if(k==kmin){
                 to_a = a;
             }
-            if(k<=0){// the best k value is 0, so no need to continue, if k is -1 , then not found
+            if(k<=0){// the best k value is 0, so no need to continue, if k is -1 or -2 , then not found/ incorrect
+//                cout<< "within break, k: "<<k<<endl;
                 break;
             }
         }
@@ -298,12 +313,17 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
                 if(k==kmin){
                     to_a = a;
                     to_a_list->push_back(to_a);
+                    from_a_list->push_back(from_a);
                     break;
                 }
             }
         }
         else if(from_a>= 0.0){ // kmin != 0
             to_a_list->push_back(to_a);
+            from_a_list->push_back(from_a);
+        }
+        else{ // k=-2 or -1
+            kmin=k;
         }
         m_k->insert({fname,kmin});
         delete ea;
