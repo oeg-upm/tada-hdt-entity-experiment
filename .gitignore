@@ -1,4 +1,4 @@
-
+datasets/t2dv2/data/*
 local_*
 *.log
 *.autosave

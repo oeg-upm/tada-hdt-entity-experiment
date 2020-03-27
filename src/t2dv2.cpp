@@ -10,6 +10,7 @@ T2Dv2::T2Dv2(string hdt_dir, string log_file_dir, string classes_file_dir, strin
     m_hdt = HDTManager::mapIndexedHDT(hdt_dir.c_str());
     m_logger = new EasyLogger(log_file_dir);
     m_k = new unordered_map<string, long>;
+    m_lang_tag = "";
 }
 
 void T2Dv2::set_file_sep(string sep) {
@@ -21,7 +22,9 @@ string T2Dv2::get_file_sep() {
 }
 
 EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context) {
-    EntityAnn* ea = new EntityAnn(m_hdt, "entity.log", 0.0);
+    EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
+    //ea->set_language_tag("@en");
+    ea->set_language_tag(m_lang_tag);
     string file_dir;
     std::list<string>* candidates;
     file_dir = m_files_dir;
@@ -31,11 +34,16 @@ EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context)
     file_dir += fname;
     Parser p(file_dir);
     if(context) {
+        m_logger->log("get_ea_model>  with context");
+        cout << "file_dir: "<<file_dir<<endl;
+        cout << "col_idx: "<<col_idx<<endl;
         candidates = ea->annotate_column(p.parse_vertical(), col_idx, context, context);
     }
     else {
+        m_logger->log("get_ea_model>  without context");
         candidates = ea->annotate_column(p.parse(), col_idx);
     }
+    m_logger->log("get_ea_model> num of candidates: "+to_string(candidates->size()));
     //    ea->get_graph()->print_nodes();
     //    delete ea;
     delete candidates;
@@ -119,6 +127,7 @@ long T2Dv2::evaluate_column_get_k(EntityAnn* ea, string class_uri, double alpha)
     long k=0;
     std::list<string>* candidates;
     candidates = ea->recompute_f(alpha);
+    m_logger->log("evaluate_column_get_k> number of candidates: "+to_string(candidates->size()));
     for(auto it = candidates->cbegin(); it!=candidates->cend(); it++, k++) {
         m_logger->log("evaluate_column_at_k> candidate "+to_string(k)+" is: "+((*it)));
         if((*it)==class_uri) {
@@ -271,11 +280,13 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
     std::list<string>::iterator col_iter;
     Parser p(m_classes_file_dir);
     data = p.parse_vertical();
+    m_logger->log("run_test> with classes file: "+m_classes_file_dir);
     for(auto it=data->cbegin(); it!=data->cend(); it++) {
         //        for(auto it2=(*it)->cbegin(); it2!=(*it)->cend();it2++){
         //            cout << (*it2) << "| ";
         //        }
-        cout << "---------------\n";
+        m_logger->log("run_test> in for loop with length "+to_string((*it)->size()));
+        cout << "\n\n---------------\n";
         col_iter = (*it)->begin();
         fname = clean_str(*col_iter);
         col_iter++;
@@ -283,16 +294,17 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
         col_id = static_cast<unsigned int>(stoul(col_id_str));
         col_iter++;
         class_uri = clean_str(*col_iter);
-        cout << "class_uri: " << class_uri<<endl;
-        cout << "col_idx: " << col_id_str <<endl;
-        cout << "fname: "<<fname<<endl;
+        cout << "class_uri: <" << class_uri << ">"<<endl;
+        cout << "col_idx: <" << col_id_str <<">" <<endl;
+        cout << "fname: <"<<fname << ">"<<endl;
         ea = get_ea_model(fname, col_id, true);
         //        ea->get_graph()->print_nodes();
+        m_logger->log("run_test> got model of: "+fname);
         from_a = to_a = -1;
-        kmin = LONG_MAX;
+        k = kmin = LONG_MAX;
         for(double a=from_alpha; a<=to_alpha; a+=step) {
             k = evaluate_column_get_k(ea,class_uri,a);
-
+            m_logger->log("run_test> got k of alpha "+to_string(a)+" k="+to_string(k));
             if(k<kmin && k>=0){
                 kmin = k;
                 from_a = a;
@@ -307,6 +319,7 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
                 break;
             }
         }
+        m_logger->log("run_test> kmin="+to_string(kmin));
         if(from_a >= 0.0 && kmin==0) {
             for(double a=to_alpha; a>=from_alpha; a-=step) {
                 k = evaluate_column_get_k(ea,class_uri,a);
@@ -324,12 +337,18 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
         }
         else{ // k=-2 or -1
             kmin=k;
+            m_logger->log("run_test> set negative k: "+to_string(k));
         }
+        m_logger->log("run_test> insert "+fname+" and kmin="+to_string(kmin));
         m_k->insert({fname,kmin});
         delete ea;
+        m_logger->log("run_test> ea is deleted");
     }
+    m_logger->log("run_test> outside the for");
     cout << "Alpha from median: "<<get_median(from_a_list)<<endl;
     cout << "Alpha to median: "<<get_median(to_a_list)<<endl;
+    delete from_a_list;
+    delete to_a_list;
 }
 
 
@@ -355,12 +374,18 @@ double T2Dv2::get_median(std::list<double>* a){
     unsigned long len;
     std::list<double>::iterator b;
     double res;
+    if(a->size() == 0){
+        cout<<"\nget_median> size is zero\n";
+        return 0.0;
+    }
     a->sort();
     b = a->begin();
-//    for(auto it=a->cbegin();it!=a->cend();it++){
+//    cout << "\n\nget_median\n";
+//    cout << "size: " << a->size() << endl;
+//    for(auto it=a->begin();it!=a->end();it++){
 //        cout<< *it << " - ";
 //    }
-//    cout<<endl;
+    cout<<endl;
     len = a->size();
     if(len%2==1){//odd
         std::advance(b,len/2);
@@ -380,6 +405,8 @@ double T2Dv2::get_median(std::list<double>* a){
     return res;
 }
 
-
+void T2Dv2::set_lang_tag(string t){
+    m_lang_tag = t;
+}
 
 

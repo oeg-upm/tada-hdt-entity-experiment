@@ -34,6 +34,7 @@ class T2Dv2 {
         double get_f1();
         string clean_str(string);
         double get_median(std::list<double>* a);
+        void set_lang_tag(string);
     private:
         string m_classes_file_dir;
         string m_files_dir;
@@ -44,6 +45,7 @@ class T2Dv2 {
         std::unordered_map<string,long>* m_k;// the result of each file
 //        std::list<pair<double,double>>* alpha_ranges; // from_alpha, to_alpha
         double m_prec, m_rec, m_f1;
+        string m_lang_tag;
 
 };
 
