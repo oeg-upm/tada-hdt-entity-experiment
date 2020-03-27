@@ -97,7 +97,7 @@ namespace {
         string fname="Athletes1.csv";
         string class_uri = dbo_prefix+"Athlete";
         T2Dv2* t2d = new T2Dv2(hdt_file, log_file, "test_files/classes_test.csv", "test_files");
-        annotated_corr = t2d->evaluate_column(fname, class_uri, 0, true, 0.7);
+        annotated_corr = t2d->evaluate_column(fname, class_uri, 0, true, 0.8);
         ASSERT_TRUE(annotated_corr);
         k = t2d->get_k(fname);
         ASSERT_EQ(k, 0);

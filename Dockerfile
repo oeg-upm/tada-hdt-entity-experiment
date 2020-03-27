@@ -2,7 +2,7 @@ FROM ahmad88me/tadahdtentityexperiment:latest
 
 WORKDIR /app
 
-COPY scripts /app/scripts
+COPY scripts  /app/scripts
 COPY src /app/src
 COPY Makefile /app/Makefile
 COPY .git /app/.git

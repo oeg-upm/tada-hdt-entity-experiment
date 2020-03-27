@@ -286,7 +286,7 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
         //            cout << (*it2) << "| ";
         //        }
         m_logger->log("run_test> in for loop with length "+to_string((*it)->size()));
-        cout << "\n\n---------------\n";
+//        cout << "\n\n---------------\n";
         col_iter = (*it)->begin();
         fname = clean_str(*col_iter);
         col_iter++;
@@ -294,9 +294,9 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
         col_id = static_cast<unsigned int>(stoul(col_id_str));
         col_iter++;
         class_uri = clean_str(*col_iter);
-        cout << "class_uri: <" << class_uri << ">"<<endl;
-        cout << "col_idx: <" << col_id_str <<">" <<endl;
-        cout << "fname: <"<<fname << ">"<<endl;
+//        cout << "class_uri: <" << class_uri << ">"<<endl;
+//        cout << "col_idx: <" << col_id_str <<">" <<endl;
+//        cout << "fname: <"<<fname << ">"<<endl;
         ea = get_ea_model(fname, col_id, true);
         //        ea->get_graph()->print_nodes();
         m_logger->log("run_test> got model of: "+fname);
@@ -385,7 +385,7 @@ double T2Dv2::get_median(std::list<double>* a){
 //    for(auto it=a->begin();it!=a->end();it++){
 //        cout<< *it << " - ";
 //    }
-    cout<<endl;
+//    cout<<endl;
     len = a->size();
     if(len%2==1){//odd
         std::advance(b,len/2);

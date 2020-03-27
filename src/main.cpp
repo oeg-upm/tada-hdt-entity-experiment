@@ -17,19 +17,6 @@ int main(int argc, char* argv[]) {
     string hdt_file, classes_file, files_dir, log_file="main.log";
     if(argc<4) {
         cerr << "Usage: " << argv[0] << "hdt_file classes_file files_dir " << std::endl;
-//        hdt_file = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
-//        string class_uri = "http://dbpedia.org/ontology/Mountain";
-//        string fname = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/99070098_0_2074872741302696997.csv";
-
-//        EntityAnn* ea = new EntityAnn(hdt_file, log_file, 0.0);
-//        std::list<string>* candidates;
-//        std::list<std::list<string>*>* data;
-//        Parser p(fname);
-//        data = p.parse_vertical();
-//        candidates = ea->annotate_column(data, 1, true, true);
-//        ea->get_graph()->print_nodes();
-//        delete candidates;
-//        candidates = ea->recompute_f(0.1);
     }
     else if(argc==4) {
         hdt_file = argv[1];
