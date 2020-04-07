@@ -46,11 +46,11 @@
 24142265_0_4577466141408796359.csv,5,http://dbpedia.org/ontology/VideoGame
 24417511_0_3058323105166963431.csv,1,http://dbpedia.org/ontology/BaseballPlayer
 24850757_0_5978004733768297283.csv,0,http://dbpedia.org/ontology/Country
-24859353_0_7027810986004269522.csv,2,http://dbpedia.org/ontology/Currency
+24859353_0_7027810986004269522.csv,3,http://dbpedia.org/ontology/Currency
 25404227_0_2240631045609013057.csv,1,http://dbpedia.org/ontology/Film
 25933880_0_4058554985574416690.csv,0,http://dbpedia.org/ontology/Wrestler
 26270372_1_3774607938887520564.csv,0,http://dbpedia.org/ontology/Monarch
-26310680_0_5150772059999313798.csv,0,http://dbpedia.org/ontology/Currency
+26310680_0_5150772059999313798.csv,1,http://dbpedia.org/ontology/Currency
 27466715_0_3913547177671701530.csv,0,http://dbpedia.org/ontology/VideoGame
 28036255_0_5705563063166785494.csv,0,http://dbpedia.org/ontology/Mountain
 28079336_1_3124145965038277571.csv,1,http://dbpedia.org/ontology/Company
@@ -58,7 +58,7 @@
 28086084_0_3127660530989916727.csv,0,http://dbpedia.org/ontology/Saint
 28154036_0_909001972154294543.csv,0,http://dbpedia.org/ontology/PoliticalParty
 28423212_0_2742990779532526553.csv,0,http://dbpedia.org/ontology/Company
-28494901_6_7026744149694237309.csv,2,http://dbpedia.org/ontology/Scientist
+28494901_6_7026744149694237309.csv,0,http://dbpedia.org/ontology/Scientist
 28646774_0_3256889721737611537.csv,0,http://dbpedia.org/ontology/PoliticalParty
 28993628_1_6072768612274729703.csv,1,http://dbpedia.org/ontology/Mountain
 29021592_3_2299138476894681059.csv,0,http://dbpedia.org/ontology/Monarch
@@ -125,7 +125,7 @@
 48456557_0_3760853481322708783.csv,0,http://dbpedia.org/ontology/Animal
 48805028_0_8933391169600128370.csv,0,http://dbpedia.org/ontology/Bird
 48944826_0_2321751364268052533.csv,2,http://dbpedia.org/ontology/VideoGame
-49087820_0_461228320225084868.csv,0,http://dbpedia.org/ontology/Currency
+49087820_0_461228320225084868.csv,1,http://dbpedia.org/ontology/Currency
 49772588_0_6549847739640234347.csv,4,http://dbpedia.org/ontology/Country
 49801939_0_6964113429298874283.csv,0,http://dbpedia.org/ontology/Mountain
 50245608_0_871275842592178099.csv,0,http://dbpedia.org/ontology/Film
@@ -144,7 +144,7 @@
 55004961_0_2904467548072189860.csv,0,http://dbpedia.org/ontology/Country
 55027702_0_628532586316851176.csv,0,http://dbpedia.org/ontology/Lake
 55238374_0_3379409961751009152.csv,0,http://dbpedia.org/ontology/Country
-55961337_0_6548713781034932742.csv,0,http://dbpedia.org/ontology/Currency
+55961337_0_6548713781034932742.csv,1,http://dbpedia.org/ontology/Currency
 56224555_0_3713922722778385817.csv,1,http://dbpedia.org/ontology/Company
 57938705_0_8737506792349461963.csv,1,http://dbpedia.org/ontology/VideoGame
 57943722_0_8666078014685775876.csv,0,http://dbpedia.org/ontology/Country
@@ -152,7 +152,7 @@
 58891288_0_1117541047012405958.csv,1,http://dbpedia.org/ontology/Film
 5972322_0_3150366936082777235.csv,0,http://dbpedia.org/ontology/Election
 60319454_0_3938426910282115527.csv,0,http://dbpedia.org/ontology/Animal
-61069974_0_1894536874590565102.csv,0,http://dbpedia.org/ontology/Currency
+61069974_0_1894536874590565102.csv,1,http://dbpedia.org/ontology/Currency
 61121469_0_6337620713408906340.csv,0,http://dbpedia.org/ontology/Country
 61626303_0_266372209664087642.csv,1,http://dbpedia.org/ontology/RadioStation
 61753761_9_4735181228515289890.csv,1,http://dbpedia.org/ontology/Museum
@@ -195,7 +195,7 @@
 77632062_0_2292892375652659825.csv,1,http://dbpedia.org/ontology/City
 77694908_0_6083291340991074532.csv,1,http://dbpedia.org/ontology/Film
 78005071_0_8643954006825971723.csv,0,http://dbpedia.org/ontology/PoliticalParty
-78650283_0_5937576517849452289.csv,0,http://dbpedia.org/ontology/Currency
+78650283_0_5937576517849452289.csv,1,http://dbpedia.org/ontology/Currency
 78891639_0_3299957631631122948.csv,1,http://dbpedia.org/ontology/City
 7929299_0_3253718003116029649.csv,1,http://dbpedia.org/ontology/Airport
 79327346_0_5787863739697336601.csv,1,http://dbpedia.org/ontology/Country
@@ -229,7 +229,7 @@
 9567241_0_5666388268510912770.csv,1,http://dbpedia.org/ontology/Newspaper
 96203994_0_2127964719640427252.csv,0,http://dbpedia.org/ontology/Company
 9686394_0_5980699488362107028.csv,1,http://dbpedia.org/ontology/Airport
-97941125_0_8220652154649529701.csv,0,http://dbpedia.org/ontology/Currency
+97941125_0_8220652154649529701.csv,1,http://dbpedia.org/ontology/Currency
 98312357_0_6395417306876145729.csv,0,http://dbpedia.org/ontology/Monarch
 9834884_0_3871985887467090123.csv,1,http://dbpedia.org/ontology/Museum
 98458255_0_5873264818593370400.csv,0,http://dbpedia.org/ontology/AcademicJournal
