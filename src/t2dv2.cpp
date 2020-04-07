@@ -24,6 +24,7 @@ string T2Dv2::get_file_sep() {
 EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context) {
     EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
     //ea->set_language_tag("@en");
+    ea->set_title_case(m_title_case);
     ea->set_language_tag(m_lang_tag);
     string file_dir;
     std::list<string>* candidates;
@@ -52,6 +53,7 @@ EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context)
 
 std::list<string>* T2Dv2::annotate_column(string fname, unsigned int col_idx, bool context, double alpha) {
     EntityAnn* ea = new EntityAnn(m_hdt, "entity.log", alpha);
+    ea->set_title_case(m_title_case);
     string file_dir;
     std::list<string>* candidates;
     file_dir = m_files_dir;
@@ -165,6 +167,38 @@ void T2Dv2::print_k() {
 }
 
 
+void T2Dv2::print_k(long k) {
+    std::list<string> *not_found = new std::list<string>;
+    std::list<string> *incorrect = new std::list<string>;
+    for(auto it=m_k->cbegin(); it!=m_k->cend(); it++) {
+        if(it->second == -1) {
+            not_found->push_back(it->first);
+        }
+        else if(it->second > k || it->second==-2) {
+            incorrect->push_back(it->first);
+        }
+    }
+    cout << "\n\nNot found: "<<endl;
+    for(auto it=not_found->cbegin();it!=not_found->cend();it++){
+        cout << (*it) << endl;
+    }
+    cout << "\nIncorrect: "<<endl;
+    for(auto it=incorrect->cbegin();it!=incorrect->cend();it++){
+        cout << (*it) << "  (k = " << m_k->at((*it)) << ")" <<endl;
+    }
+    delete not_found;
+    delete incorrect;
+}
+
+
+
+
+
+
+
+
+
+
 void T2Dv2::compute_scores(long k) {
     m_correct=m_incorrect=m_notfound = 0;
     m_prec=m_rec=m_f1 = 0.0;
@@ -237,7 +271,8 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step, unsigned l
         cout << "class_uri: " << class_uri<<endl;
         cout<< "col_idx: " << col_id_str <<endl;
         cout<<"fname: "<<fname<<endl;
-        ea = get_ea_model(fname, col_id, true);
+        ea = get_ea_model(fname, col_id, m_inner_context);
+//        ea = get_ea_model(fname, col_id, true);
         //        ea->get_graph()->print_nodes();
         from_a = to_a = -1;
         for(double a=from_alpha; a<=to_alpha; a+=step) {
@@ -279,6 +314,12 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
     double from_a, to_a;
     std::list<string>::iterator col_iter;
     Parser p(m_classes_file_dir);
+//    if(m_inner_context){
+//        data = p.parse_vertical();
+//    }
+//    else{
+//        data = p.parse();
+//    }
     data = p.parse_vertical();
     m_logger->log("run_test> with classes file: "+m_classes_file_dir);
     for(auto it=data->cbegin(); it!=data->cend(); it++) {
@@ -409,4 +450,10 @@ void T2Dv2::set_lang_tag(string t){
     m_lang_tag = t;
 }
 
+void T2Dv2::set_title_case(bool t){
+    m_title_case = t;
+}
 
+void T2Dv2::set_inner_context(bool t){
+    m_inner_context = t;
+}

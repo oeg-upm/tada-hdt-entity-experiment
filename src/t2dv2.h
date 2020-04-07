@@ -28,6 +28,7 @@ class T2Dv2 {
         void run_test(double from_alpha, double to_alpha, double step); // focusing on the best k
         long get_k(string fname);
         void print_k();
+        void print_k(long);
         void compute_scores(long k);
         double get_prec();
         double get_rec();
@@ -35,6 +36,8 @@ class T2Dv2 {
         string clean_str(string);
         double get_median(std::list<double>* a);
         void set_lang_tag(string);
+        void set_title_case(bool);
+        void set_inner_context(bool);
     private:
         string m_classes_file_dir;
         string m_files_dir;
@@ -46,6 +49,8 @@ class T2Dv2 {
 //        std::list<pair<double,double>>* alpha_ranges; // from_alpha, to_alpha
         double m_prec, m_rec, m_f1;
         string m_lang_tag;
+        bool m_title_case = false;
+        bool m_inner_context = true;
 
 };
 

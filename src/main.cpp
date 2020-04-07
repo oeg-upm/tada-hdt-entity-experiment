@@ -28,6 +28,10 @@ int main(int argc, char* argv[]) {
         clock_t t=clock();
         T2Dv2* t2d = new T2Dv2(hdt_file, log_file, classes_file, files_dir);
         t2d->set_lang_tag("@en");
+        t2d->set_title_case(false);
+//        t2d->set_title_case(true);
+//        t2d->set_inner_context(false);
+        t2d->set_inner_context(true);
 //        t2d->run_test(0.0, 1.0, 0.05);
         t2d->run_test(0.0, 1.0, 0.01);
         k=0;
@@ -44,6 +48,7 @@ int main(int argc, char* argv[]) {
         printf ("It took %.2f seconds.\n",(static_cast<double>(t))/CLOCKS_PER_SEC);
 //        printf ("It took me %ul clicks (%.2f seconds).\n",t,(static_cast<double>(t))/CLOCKS_PER_SEC);
 //        printf ("It took me %d clicks (%.2f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+        t2d->print_k(1);
     }
 
     return 0;
