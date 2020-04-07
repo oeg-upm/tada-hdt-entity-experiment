@@ -10,5 +10,8 @@ Run experiments using tada-hdt-entity library
 * T2Dv2
 
 # T2Dv2
-`classes_with_col_GS.csv`: this file contains the file names, the column id of the subject columns, and their classes
+* `classes_with_col_GS.csv`: this file contains the file names, the column id of the subject columns, and their classes
 This is update version from the `classes_GS.csv` provided by the T2Dv2. We changed the concept column with the subject column id and we fixed some mislabels.
+* `classes_with_col_GS_2016_04`: a subset of `classes_with_col_GS.csv`, which contains the entity columns which exists in dbpedia's hdt of 04-2016.
+* `properties_entity.csv`: contains the properties with entities as the objects
+* `properties_2016_04`: a subset of `properties_entity.csv` which only contains the properties which exists in dbpedia's hdt of 04-2016.
