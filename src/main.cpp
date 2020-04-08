@@ -9,9 +9,6 @@ using namespace std;
 
 
 
-
-
-
 int main(int argc, char* argv[]) {
     long k;
     string hdt_file, classes_file, files_dir, log_file="main.log";

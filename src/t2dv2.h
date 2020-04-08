@@ -38,6 +38,9 @@ class T2Dv2 {
         void set_lang_tag(string);
         void set_title_case(bool);
         void set_inner_context(bool);
+        void generate_properties_file(string input_file, string output_file);
+        bool property_class_exist(string class_uri, string property_uri);
+
     private:
         string m_classes_file_dir;
         string m_files_dir;

@@ -2,6 +2,8 @@
 #include<tada_hdt_entity/entity.h>
 #include<tabular_parser/parser.h>
 #include <climits>
+#include <fstream>
+#include <iostream>
 
 T2Dv2::T2Dv2(string hdt_dir, string log_file_dir, string classes_file_dir, string files_dir) {
     m_classes_file_dir = classes_file_dir;
@@ -456,4 +458,86 @@ void T2Dv2::set_title_case(bool t){
 
 void T2Dv2::set_inner_context(bool t){
     m_inner_context = t;
+}
+
+
+void T2Dv2::generate_properties_file(string input_fdir, string output_fdir){
+    std::list<std::list<string>*>* data;
+    std::list<string>::iterator col_iter;
+    ofstream output_file;
+    Parser p(input_fdir);
+    data = p.parse_vertical();
+    string fname, class_uri, property_uri, col_id_str;
+    unsigned long col_id;
+    output_file.open(output_fdir);
+    long num_exist,num_not;
+    num_exist = num_not = 0;
+    for(auto it=data->cbegin();it!=data->cend();it++){
+        col_iter = (*it)->begin();
+        fname = clean_str(*col_iter);
+        col_iter++;
+        class_uri = clean_str(*col_iter);
+        col_iter++;
+        property_uri = clean_str(*col_iter);
+        col_iter++;
+        col_id_str = clean_str(*col_iter);
+        col_id = static_cast<unsigned long>(stoul(col_id_str));
+//        cout << "fname: "<<fname<<endl;
+//        cout << "class uri: "<<class_uri<<endl;
+//        cout << "property uri: "<<property_uri<<endl;
+//        cout << "col id: "<<col_id<<endl;
+        if(property_class_exist(class_uri,property_uri)){
+            output_file << fname << "," << class_uri << "," << property_uri << "," << col_id_str <<endl;
+            num_exist++;
+        }
+        else{
+            cout << "fname: "<<fname<<endl;
+            cout << "class uri: "<<class_uri<<endl;
+            cout << "property uri: "<<property_uri<<endl;
+            cout << "col id: "<<col_id<<endl;
+            num_not++;
+        }
+    }
+    cout << "exist: "<<num_exist<<endl;
+    cout << "not: "<<num_not<<endl;
+    cout << "percentage: "<<(num_exist*100.0/(num_not+num_exist))<<endl;
+    output_file.close();
+}
+
+bool T2Dv2::property_class_exist(string class_uri, string property_uri){
+    IteratorTripleString* itt;
+    TripleString* triple;
+    IteratorTripleString* itt2;
+    TripleString* triple2;
+    bool found = false;
+    string entity;
+    // first check if the property exists
+    itt = m_hdt->search("", property_uri.c_str(), "");
+    m_logger->log("property_class_exist> search properties class: <"+class_uri+"> ----- property: <"+property_uri+">");
+    while(itt->hasNext()) {
+        triple = itt->next();
+        m_logger->log("property_class_exist> property exists: "+property_uri);
+        found = true;
+        break;
+    }
+    delete itt;
+    if(!found){
+        return false;
+    }
+    itt = m_hdt->search("", rdf_type.c_str(), class_uri.c_str());
+    m_logger->log("property_class_exist> get entities: <"+class_uri+"> ----- property: <"+property_uri+">");
+    while(itt->hasNext()) {
+        triple = itt->next();
+        entity = triple->getSubject();
+        itt2 = m_hdt->search(entity.c_str(),property_uri.c_str(),"");
+        while(itt2->hasNext()){
+            m_logger->log("property_class_exist> found pair: <"+entity+"> --- <"+property_uri+">");
+            delete itt2;
+            delete  itt;
+            return true;
+        }
+        delete itt2;
+    }
+    delete itt;
+    return false;
 }
