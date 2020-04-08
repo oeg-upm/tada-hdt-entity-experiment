@@ -147,6 +147,27 @@ namespace {
         delete t2d;
     }
 
+    TEST(T2Dv2, PropertyCheck) {
+        T2Dv2* t2d = new T2Dv2(hdt_file, log_file, "test_files/classes_test_wrong.csv", "test_files");
+        bool found;
+        string class_uri, property_uri;
+        property_uri = "http://dbpedia.org/property/city";
+        class_uri = "http://dbpedia.org/ontology/FootballPlayer";
+        found = t2d->property_class_exist(class_uri,property_uri);
+        ASSERT_TRUE(found);
+        property_uri = "http://dbpedia.org/property/country";
+        found = t2d->property_class_exist(class_uri,property_uri);
+        ASSERT_TRUE(found);
+        property_uri = "http://dbpedia.org/property/Notfound12321";
+        found = t2d->property_class_exist(class_uri,property_uri);
+        ASSERT_FALSE(found);
+        property_uri = "http://dbpedia.org/property/city";
+        class_uri = "http://dbpedia.org/ontology/BasketballPlayer";
+        found = t2d->property_class_exist(class_uri,property_uri);
+        ASSERT_FALSE(found);
+        delete t2d;
+    }
+
 }//namespace
 
 
