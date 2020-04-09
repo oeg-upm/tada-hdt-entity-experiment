@@ -168,6 +168,25 @@ namespace {
         delete t2d;
     }
 
+    TEST(T2Dv2, PropertiesFile) {
+        string class_uri, property_uri, key, fname;
+        long k;
+        T2Dv2* t2d = new T2Dv2(hdt_file, log_file, "", "test_files");
+        t2d->run_test_properties("test_files/properties_test.csv");
+        t2d->compute_scores(0);
+        t2d->print_k();
+        class_uri = "http://dbpedia.org/ontology/Wrestler";
+        property_uri = "http://dbpedia.org/property/country";
+        fname = "Wrestler1.csv";
+        key = fname+"--2";
+        k = t2d->get_k(key);
+        ASSERT_EQ(k,0);
+        key = fname+"--0";
+        k = t2d->get_k(key);
+        ASSERT_EQ(k,-1);
+        delete t2d;
+    }
+
 }//namespace
 
 

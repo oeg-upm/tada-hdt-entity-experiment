@@ -14,7 +14,7 @@ def clean(b):
     return a[start_idx:end_idx]
     
         
-def get_properties_of_a_file(fdir,class_uri):
+def get_properties_of_a_file(fdir,class_uri, class_idx):
     f = open(fdir)
     fname = fdir.split(os.path.sep)[-1]
     lines = []
@@ -31,7 +31,7 @@ def get_properties_of_a_file(fdir,class_uri):
         if attributes[2].upper() == 'FALSE':
 #            print("in false")
             property_uri = attributes[0].strip()
-            p = [fname,class_uri,property_uri,attributes[3]]
+            p = [fname,class_uri,property_uri,class_idx,attributes[3]]
 #            p = [fname,class_uri,property_uri,str(int(attributes[3])-1)]
             lines.append(",".join(p))
 #            print("p: ")
@@ -56,9 +56,10 @@ def write_properties(p_base_fdir,classes_fdir,output_fdir):
             continue
         attributes = line.split(',')
         fname = attributes[0]
+        idx = attributes[1]
         class_uri = attributes[2]
 #        print("fname: "+fname)
-        lines += get_properties_of_a_file(os.path.join(p_base_fdir,fname),class_uri)
+        lines += get_properties_of_a_file(os.path.join(p_base_fdir,fname),class_uri, idx)
     f.close()
 #    print("lines: ")
 #    print(lines)
@@ -66,6 +67,35 @@ def write_properties(p_base_fdir,classes_fdir,output_fdir):
     f.write("\n".join(lines))
     f.close()
 
+# This function is used to fix the manually cleaned files. For newer versions, it is not needed.
+def fix(properties_fdir, classes_fdir, output_fdir):
+    cols = {}
+    f = open(classes_fdir)
+    for line in f.readlines():
+        attributes = line.strip().split(',')
+        fname = attributes[0].strip()
+        idx = attributes[1].strip()
+        cols[fname] = idx
+    f.close()
+
+    f = open(properties_fdir)
+    lines = []
+    for line in f.readlines():
+        #11833461_1_3811022039809817402.csv,http://dbpedia.org/ontology/VideoGame,http://dbpedia.org/ontology/publisher,1
+        attributes = line.strip().split(',')
+        fname = attributes[0].strip()
+        class_uri = attributes[1].strip()
+        property_uri = attributes[2].strip()
+        property_idx = attributes[3].strip()
+        class_idx = cols[fname]
+        ll = [fname,class_uri,property_uri,class_idx,property_idx]
+        lines.append(",".join(ll))
+    f.close()
+
+    f = open(output_fdir, 'w')
+    for line in lines:
+        f.write(line+"\n")
+    f.close()
 
     
 if __name__ == "__main__":
@@ -76,3 +106,5 @@ if __name__ == "__main__":
         print("Args: properties_base_dir, classes_file_dir, output_file_dir")
 #        a = "/Users/aalobaid/Downloads/extended_instance_goldstandard (6)/property/99070098_0_2074872741302696997.csv"
 #        get_properties_of_a_file(a,"something")
+        # properties_fdir, classes_fdir, output_fdir
+        fix(args[1],args[2], args[3])

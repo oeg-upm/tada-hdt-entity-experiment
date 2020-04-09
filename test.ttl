@@ -62,6 +62,21 @@ dbr:footballp1 dbp:country "country1" .
 
 
 
+dbr:UK rdf:type dbo:Country .
+dbr:UK rdfs:label "UK" .
+dbr:Spain rdf:type dbo:Country .
+dbr:Spain rdfs:label "Spain" .
+dbr:Italy rdf:type dbo:Country .
+dbr:Italy rdfs:label "Italy" .
+
+
+dbr:wrestler1 rdf:type dbo:Wrestler .
+dbr:wrestler1 rdfs:label "wr_common_1" .
+dbr:wrestler1 dbp:country dbr:UK .
+dbr:wrestler2 rdf:type dbo:Wrestler .
+dbr:wrestler2 rdfs:label "wr_common_2" .
+dbr:wrestler2 dbp:country dbr:Spain .
+
 
 
 

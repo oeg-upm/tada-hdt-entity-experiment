@@ -40,6 +40,7 @@ class T2Dv2 {
         void set_inner_context(bool);
         void generate_properties_file(string input_file, string output_file);
         bool property_class_exist(string class_uri, string property_uri);
+        void run_test_properties(string properties_fdir);
 
     private:
         string m_classes_file_dir;

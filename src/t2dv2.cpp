@@ -316,18 +316,9 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
     double from_a, to_a;
     std::list<string>::iterator col_iter;
     Parser p(m_classes_file_dir);
-//    if(m_inner_context){
-//        data = p.parse_vertical();
-//    }
-//    else{
-//        data = p.parse();
-//    }
     data = p.parse_vertical();
     m_logger->log("run_test> with classes file: "+m_classes_file_dir);
     for(auto it=data->cbegin(); it!=data->cend(); it++) {
-        //        for(auto it2=(*it)->cbegin(); it2!=(*it)->cend();it2++){
-        //            cout << (*it2) << "| ";
-        //        }
         m_logger->log("run_test> in for loop with length "+to_string((*it)->size()));
 //        cout << "\n\n---------------\n";
         col_iter = (*it)->begin();
@@ -393,6 +384,11 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
     delete from_a_list;
     delete to_a_list;
 }
+
+
+
+
+
 
 
 string T2Dv2::clean_str(string s) {
@@ -541,3 +537,54 @@ bool T2Dv2::property_class_exist(string class_uri, string property_uri){
     delete itt;
     return false;
 }
+
+
+
+void T2Dv2::run_test_properties(string properties_fdir) {
+    std::list<std::list<string>*>*  data;
+    std::list<string>* properties;
+    string class_uri, col_id_str, fname, property_uri, key;
+    long col_id, prop_id, k;
+    bool added=false;
+    std::list<string>::iterator col_iter;
+    EntityAnn *ea =  new EntityAnn(m_hdt, "entity.log", 0);
+    Parser p(properties_fdir);
+    data = p.parse_vertical();
+    Parser *p2;
+    for(auto it=data->cbegin(); it!=data->cend(); it++) {
+        m_logger->log("run_test> in for loop with length "+to_string((*it)->size()));
+//        cout << "\n\n---------------\n";
+
+        col_iter = (*it)->begin();
+        fname = clean_str(*col_iter);
+        col_iter++;
+        class_uri = clean_str(*col_iter);
+        col_iter++;
+        property_uri = clean_str(*col_iter);
+        col_iter++;
+
+        col_id_str = clean_str(*col_iter);
+        col_id = static_cast<unsigned int>(stol(col_id_str));
+        col_iter++;
+
+        col_id_str = clean_str(*col_iter);
+        prop_id = static_cast<unsigned int>(stol(col_id_str));
+
+        p2 = new Parser(m_files_dir+m_file_sep+fname);
+        properties = ea->annotate_entity_property_column(p2->parse_vertical(),col_id,prop_id);
+        k=0;
+        added=false;
+        key = fname+"--"+col_id_str;
+        for(auto it2=properties->cbegin();it2!=properties->cend();it2++,k++){
+            if((*it2) ==  property_uri){
+                m_k->insert({key,k});
+                added=true;
+            }
+        }
+        if(added==false){
+            m_k->insert({key,-1});
+        }
+    }
+}
+
+
