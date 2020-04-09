@@ -548,6 +548,8 @@ void T2Dv2::run_test_properties(string properties_fdir) {
     bool added=false;
     std::list<string>::iterator col_iter;
     EntityAnn *ea =  new EntityAnn(m_hdt, "entity.log", 0);
+    ea->set_title_case(m_title_case);
+    ea->set_language_tag(m_lang_tag);
     Parser p(properties_fdir);
     data = p.parse_vertical();
     Parser *p2;
@@ -572,16 +574,19 @@ void T2Dv2::run_test_properties(string properties_fdir) {
 
         p2 = new Parser(m_files_dir+m_file_sep+fname);
         properties = ea->annotate_entity_property_column(p2->parse_vertical(),col_id,prop_id);
+        delete p2;
         k=0;
         added=false;
         key = fname+"--"+col_id_str;
         for(auto it2=properties->cbegin();it2!=properties->cend();it2++,k++){
             if((*it2) ==  property_uri){
                 m_k->insert({key,k});
+//                cout << "run_test_properties> fname: "+fname+" col_id: "+col_id_str+" top property"+properties->front() <<endl;
                 added=true;
             }
         }
         if(added==false){
+            m_logger->log("run_test_properties> fname: "+fname+" col_id: "+col_id_str+" top property"+properties->front());
             m_k->insert({key,-1});
         }
     }
