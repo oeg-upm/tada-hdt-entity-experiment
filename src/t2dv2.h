@@ -16,6 +16,9 @@ using namespace hdt;
 
 class T2Dv2 {
     public:
+        static const char PERMISSIVE_MODE='p';
+        static const char RESTRICTIVE_MODE='r';
+        static const char HEURISTIC_MODE='h';
         T2Dv2(string hdt_dir, string log_file, string classes_file_dir, string files_dir);
         void set_file_sep(string);
         string get_file_sep();
@@ -40,7 +43,7 @@ class T2Dv2 {
         void set_inner_context(bool);
         void generate_properties_file(string input_file, string output_file);
         bool property_class_exist(string class_uri, string property_uri);
-        void run_test_properties(string properties_fdir);
+        void run_test_properties(string properties_fdir, char mode);
 
     private:
         string m_classes_file_dir;

@@ -540,7 +540,7 @@ bool T2Dv2::property_class_exist(string class_uri, string property_uri){
 
 
 
-void T2Dv2::run_test_properties(string properties_fdir) {
+void T2Dv2::run_test_properties(string properties_fdir, char mode) {
     std::list<std::list<string>*>*  data;
     std::list<string>* properties;
     string class_uri, col_id_str, fname, property_uri, key;
@@ -556,7 +556,6 @@ void T2Dv2::run_test_properties(string properties_fdir) {
     for(auto it=data->cbegin(); it!=data->cend(); it++) {
         m_logger->log("run_test> in for loop with length "+to_string((*it)->size()));
 //        cout << "\n\n---------------\n";
-
         col_iter = (*it)->begin();
         fname = clean_str(*col_iter);
         col_iter++;
@@ -573,23 +572,49 @@ void T2Dv2::run_test_properties(string properties_fdir) {
         prop_id = static_cast<unsigned int>(stol(col_id_str));
 
         p2 = new Parser(m_files_dir+m_file_sep+fname);
-        properties = ea->annotate_entity_property_column(p2->parse_vertical(),col_id,prop_id);
-        delete p2;
+        if(mode==PERMISSIVE_MODE){
+            properties = ea->annotate_entity_property_heuristic(p2->parse_vertical(), class_uri, prop_id);
+        }
+        else if(mode==RESTRICTIVE_MODE || mode==HEURISTIC_MODE){ // restrictive or heuristic
+            properties = ea->annotate_entity_property_column(p2->parse_vertical(),col_id,prop_id);
+        }
+        else{
+            cout << "ERROR: Wrong mode: <"<<mode<<">\n";
+            return ;
+        }
         k=0;
         added=false;
         key = fname+"--"+col_id_str;
+
         for(auto it2=properties->cbegin();it2!=properties->cend();it2++,k++){
             if((*it2) ==  property_uri){
                 m_k->insert({key,k});
 //                cout << "run_test_properties> fname: "+fname+" col_id: "+col_id_str+" top property"+properties->front() <<endl;
+                m_logger->log("run_test_properties> restrictive -- found: "+key);
                 added=true;
+                break;
             }
         }
+        if(mode==HEURISTIC_MODE && added==false){
+            properties = ea->annotate_entity_property_heuristic(p2->parse_vertical(), class_uri, prop_id);
+            k=0;
+            for(auto it2=properties->cbegin();it2!=properties->cend();it2++,k++){
+                if((*it2) ==  property_uri){
+                    m_k->insert({key,k});
+                    m_logger->log("run_test_properties> heuristic -- found: "+key);
+                    added=true;
+                    break;
+                }
+            }
+        }//if heuristic
         if(added==false){
-            m_logger->log("run_test_properties> fname: "+fname+" col_id: "+col_id_str+" top property"+properties->front());
+            m_logger->log("run_test_properties> notfound fname: "+fname+" col_id: "+col_id_str+" top property: "+properties->front());
             m_k->insert({key,-1});
         }
+        delete properties;
+        delete p2;
     }
 }
+
 
 

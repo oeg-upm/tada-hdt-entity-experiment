@@ -19,10 +19,10 @@ rm v1.3.zip
 cd tabular-parser-1.3;make install;cd ..;rm -Rf tabular-parser-1.3
 
 echo "Installing tada-hdt-entity... "
-wget https://github.com/oeg-upm/tada-hdt-entity/archive/v1.4.zip
-unzip v1.4.zip
-rm v1.4.zip
-cd tada-hdt-entity-1.4;make install;cd ..;rm -Rf tada-hdt-entity-1.4
+wget https://github.com/oeg-upm/tada-hdt-entity/archive/v1.5.zip
+unzip v1.5.zip
+rm v1.5.zip
+cd tada-hdt-entity-1.5;make install;cd ..;rm -Rf tada-hdt-entity-1.5
 
 echo "update linker caches..."
 ldconfig
