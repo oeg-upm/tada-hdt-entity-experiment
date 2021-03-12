@@ -58,7 +58,6 @@ class T2Dv2 {
         string m_lang_tag;
         bool m_title_case = false;
         bool m_inner_context = true;
-
 };
 
 

@@ -387,10 +387,6 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
 
 
 
-
-
-
-
 string T2Dv2::clean_str(string s) {
     string c;
     unsigned long start_idx=0, len;
