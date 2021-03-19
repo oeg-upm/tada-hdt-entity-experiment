@@ -1,6 +1,8 @@
 #ifndef T2DV2_H
 #define T2DV2_H
  // pair
+#include<stdio.h>
+#include<stdlib.h>
 #include <utility>
 #include<iostream>
 #include<string>
@@ -45,6 +47,21 @@ class T2Dv2 {
         bool property_class_exist(string class_uri, string property_uri);
         void run_test_properties(string properties_fdir, char mode);
 
+
+
+        void run_entity_test_left_one_out_class(string class_uri);
+        void run_entity_and_compute_alphas(); // compute the alpha ranges for each file
+        void run_entity_test_left_one_out_all();
+        void get_classes_and_columns();
+        // returns half the distance of range of optimal alphas
+        void run_entity_test_on_a_file(string class_uri, string fname, unsigned int col_id, double from_alpha, double to_alpha, double step);
+        // The map contains the classes as the keys and the values as a vector of the pairs.
+        // Each pair is composed of a file name and the entity column index.
+        unordered_map < string, vector < pair < string, unsigned int > > > m_classes_col_names;
+        unordered_map <string, double> m_files_alpha;
+        unordered_map <string, double> m_classes_pred_acc; // alpha prediction accuracy for each class
+        unordered_map <string, double> m_classes_opt_alpha; // the optimal alpha
+//        bool m_verbose=true;
     private:
         string m_classes_file_dir;
         string m_files_dir;
@@ -58,6 +75,12 @@ class T2Dv2 {
         string m_lang_tag;
         bool m_title_case = false;
         bool m_inner_context = true;
+
+
+        const string rdf_type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+        const string rdfs_subclassof = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
+        const string rdfs_label = "http://www.w3.org/2000/01/rdf-schema#label";
+
 };
 
 

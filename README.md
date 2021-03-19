@@ -4,6 +4,9 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3732641.svg)](https://doi.org/10.5281/zenodo.3732641)
 
 
+# TODO and Progress
+* Added the function get_classes_and_columns(). Now this to be used to detect the alpha value using the leave-out way.
+
 Run experiments using tada-hdt-entity library
 
 # Datasets
@@ -39,3 +42,7 @@ int main(int argc, char* argv[]) {
 }
 ```
 and then compile and run `make;bin/tadaeexperiment`
+
+# Dev remarks
+* The k starts from 0.
+* Column indecies starts from 0.
