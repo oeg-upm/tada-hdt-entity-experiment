@@ -24,10 +24,10 @@ string T2Dv2::get_file_sep() {
 }
 
 EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context) {
-    cout << "HEADER get_ea_model\n";
-    cout << "fname: <"<<fname<<">\n";
+//    cout << "HEADER get_ea_model\n";
+    cout << "get EA Model fname: <"<<fname<<">\n";
     cout << "col_idx: <"<<col_idx<<">\n";
-    cout << "context: <"<<context<<">\n";
+//    cout << "context: <"<<context<<">\n";
     EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
     //ea->set_language_tag("@en");
     ea->set_title_case(m_title_case);
@@ -41,30 +41,30 @@ EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context)
     file_dir += fname;
     Parser p(file_dir);
     if(context) {
-        cout << "title case: <"<<m_title_case<<">"<<endl;
-        cout << "m_lang_tag: <"<<m_lang_tag<<">"<<endl;
-        m_logger->log("m_title_case: ");
-        m_logger->log("get_ea_model>  with context");
-        m_logger->log("get_ea_model>  file_dir: "+file_dir);
-        m_logger->log("get_ea_model>  col_idx: "+to_string(col_idx));
-        cout << "file_dir: "<<file_dir<<endl;
-        cout << "col_idx: "<<col_idx<<endl;
+//        cout << "title case: <"<<m_title_case<<">"<<endl;
+//        cout << "m_lang_tag: <"<<m_lang_tag<<">"<<endl;
+//        m_logger->log("m_title_case: ");
+//        m_logger->log("get_ea_model>  with context");
+//        m_logger->log("get_ea_model>  file_dir: "+file_dir);
+//        m_logger->log("get_ea_model>  col_idx: "+to_string(col_idx));
+//        cout << "file_dir: "<<file_dir<<endl;
+//        cout << "col_idx: "<<col_idx<<endl;
 //        cout << "pre parse:\n";
 //        p.parse_vertical();
 //        cout <<" parse vertical\n";
         candidates = ea->annotate_column(p.parse_vertical(), col_idx, context, context);
-        cout << "11out candidate: annotate_column\n";
-        m_logger->log("11get_ea_model>  annotate_column post");
+//        cout << "11out candidate: annotate_column\n";
+//        m_logger->log("11get_ea_model>  annotate_column post");
     }
     else {
-        cout << "000 pre No context out candidate: annotate_column\n";
-        m_logger->log("000 get_ea_model>  without context");
+//        cout << "000 pre No context out candidate: annotate_column\n";
+//        m_logger->log("000 get_ea_model>  without context");
         candidates = ea->annotate_column(p.parse(), col_idx);
-        cout << "000 post No context out candidate: annotate_column\n";
+//        cout << "000 post No context out candidate: annotate_column\n";
     }
-    cout << "000  finished\n";
-    m_logger->log("000get_ea_model> num of candidates: "+to_string(candidates->size()));
-    cout << "000 finished\n";
+//    cout << "000  finished\n";
+//    m_logger->log("000get_ea_model> num of candidates: "+to_string(candidates->size()));
+//    cout << "000 finished\n";
     //    ea->get_graph()->print_nodes();
     //    delete ea;
     delete candidates;
@@ -680,15 +680,15 @@ void T2Dv2::run_entity_test_on_a_file(string class_uri, string fname, unsigned i
     long k;
     EntityAnn* ea;
     double from_a, to_a;
-    m_logger->log(func_name+"> pre get_ea_model");
+//    m_logger->log(func_name+"> pre get_ea_model");
     ea = get_ea_model(fname, col_id, true);
-    m_logger->log(func_name+"> post get_ea_model");
-    m_logger->log("run_entity_test_on_a_file> got model of: "+fname);
+//    m_logger->log(func_name+"> post get_ea_model");
+//    m_logger->log("run_entity_test_on_a_file> got model of: "+fname);
     from_a = to_a = -1;
     std::list<pair<double, double> > alphas_ranges;
     for(double a=from_alpha; a<=to_alpha; a+=step) {
         k = evaluate_column_get_k(ea, class_uri, a);
-        m_logger->log("run_entity_test_on_a_file> got k of alpha "+to_string(a)+" k="+to_string(k));
+        //m_logger->log("run_entity_test_on_a_file> got k of alpha "+to_string(a)+" k="+to_string(k));
         if(k==0) {
             if(from_a<0) {
                 from_a = a;
@@ -732,10 +732,11 @@ void T2Dv2::run_entity_and_compute_alphas() {
     if(m_classes_col_names.size()==0) {
         m_logger->log(func_name+"> classes and files and not yet fetched. Will be fetched now");
         get_classes_and_columns();
-        m_logger->log(func_name+"> fetched");
+//        m_logger->log(func_name+"> fetched");
     }
     for(auto it=m_classes_col_names.cbegin(); it!=m_classes_col_names.cend(); it++) {
         class_uri = it->first;
+        m_logger->log("=================================");
         m_logger->log(class_uri+"\n");
         //cout<< endl << class_uri <<"\n";
         if(it->second.size() > 1) {
@@ -752,6 +753,7 @@ void T2Dv2::run_entity_and_compute_alphas() {
         }
     }
 }
+
 
 void T2Dv2::run_entity_test_left_one_out_class(string class_uri) {
     string func_name = __func__;
@@ -816,16 +818,16 @@ void T2Dv2::run_entity_test_left_one_out_all() {
     if(m_classes_col_names.size()==0) {
         m_logger->log(func_name+"> classes and files and not yet fetched. Will be fetched now");
         get_classes_and_columns();
-        m_logger->log(func_name+"> fetched");
+//        m_logger->log(func_name+"> fetched");
     }
 
     run_entity_and_compute_alphas();
-
-//    for(auto it=m_classes_col_names.cbegin(); it!=m_classes_col_names.cend(); it++) {
-//        class_uri = it->first;
-//        cout<< endl << class_uri <<"\n";
-//        run_entity_test_left_one_out_class(class_uri);
-//    }
+    cout << "=================alphas===============\n";
+    for(auto it=m_classes_col_names.cbegin(); it!=m_classes_col_names.cend(); it++) {
+        class_uri = it->first;
+        cout<< endl << class_uri <<"\n";
+        run_entity_test_left_one_out_class(class_uri);
+    }
     string sep=",";
     ofstream opt_alphas("opt_alphas.csv");
     opt_alphas << "class" << sep << "alpha" << endl;

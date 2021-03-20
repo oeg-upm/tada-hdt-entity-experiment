@@ -74,13 +74,20 @@ int main(int argc, char* argv[]) {
     string fname = "86747932_0_7532457067740920052.csv";
 
     string hdt_fpath, log_fpath, classes_fpath, files_dir;
-    hdt_fpath = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
+    hdt_fpath = "/home/aalobaid/workspaces/Datasets/dbpedia_all.hdt";
+    //    hdt_fpath = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
     log_fpath = "testlog.log";
-    classes_fpath = "datasets/t2dv2/classes_with_col_GS_2016_04.csv";
-    files_dir = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2";
+    classes_fpath = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/t2dv2/classes_with_col_GS_2016_04.csv";
+    //classes_fpath = "datasets/t2dv2/classes_with_col_GS_2016_04.csv";
+//    files_dir = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2";
+    files_dir = "/home/aalobaid/workspaces/Datasets/t2dv2";
     T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
     t2d.set_lang_tag("@en");
     t2d.set_title_case(true);
+
+//    t2d.get_ea_model("86747932_0_7532457067740920052.csv",1,true);
+
+
     t2d.run_entity_test_left_one_out_all();
 //    cout << "\n\n\n123\n";
 //    t2d.get_ea_model(fname, col_idx, true);
