@@ -771,8 +771,8 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri) {
         fname = vec_ptr->at(i).first;
         col_id = vec_ptr->at(i).second;
         if(m_files_alpha.find(fname)!=m_files_alpha.cend()) { // out file has a correct alpha
-            out_alpha = m_files_alpha[fname];
-            class_alpha += out_alpha;
+            out_alpha = m_files_alpha[fname]; // store a copy of the alpha
+            class_alpha += out_alpha;  // to compute the optimal alpha
             num_files_with_opt_alpha +=1;
             m_files_alpha[fname] = -1; // to check later if the passed alpha resulted in a correct class
             alpha_sum = 0; // sum of the training alphas
@@ -787,6 +787,7 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri) {
             }
             if(num_training>0){
                 alpha_avg = alpha_sum / num_training; // get average alpha
+                this->append_to_file("alpha_leaveout_alpha_log.csv", class_uri+","+fname+","+to_string(alpha_avg)+"\n");
                 run_entity_test_on_a_file(class_uri, fname, col_id, alpha_avg, alpha_avg+0.01, 2); // so it will just test on alpha_avg
                 if(m_files_alpha[fname] > -1) {
                     corr +=1;
@@ -820,7 +821,7 @@ void T2Dv2::run_entity_test_left_one_out_all() {
         get_classes_and_columns();
 //        m_logger->log(func_name+"> fetched");
     }
-
+    this->append_to_file("alpha_leaveout_alpha_log.csv", "class_uri,fname,alpha\n");
     run_entity_and_compute_alphas();
     cout << "=================alphas===============\n";
     for(auto it=m_classes_col_names.cbegin(); it!=m_classes_col_names.cend(); it++) {
@@ -842,4 +843,10 @@ void T2Dv2::run_entity_test_left_one_out_all() {
         acc_class << it->first << sep << it->second << endl;
     }
     acc_class.close();
+}
+
+void T2Dv2::append_to_file(string fdir, string line){
+    ofstream f(fdir, ofstream::out | ofstream::app);
+    f << line;
+    f.close();
 }

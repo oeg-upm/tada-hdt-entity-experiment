@@ -70,8 +70,8 @@ int main(int argc, char* argv[]) {
 
 
 
-    unsigned int col_idx= 1;
-    string fname = "86747932_0_7532457067740920052.csv";
+//    unsigned int col_idx= 1;
+//    string fname = "86747932_0_7532457067740920052.csv";
 
     string hdt_fpath, log_fpath, classes_fpath, files_dir;
     hdt_fpath = "/home/aalobaid/workspaces/Datasets/dbpedia_all.hdt";

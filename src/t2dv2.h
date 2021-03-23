@@ -48,7 +48,7 @@ class T2Dv2 {
         void run_test_properties(string properties_fdir, char mode);
 
 
-
+        void append_to_file(string fdir, string line);
         void run_entity_test_left_one_out_class(string class_uri);
         void run_entity_and_compute_alphas(); // compute the alpha ranges for each file
         void run_entity_test_left_one_out_all();
