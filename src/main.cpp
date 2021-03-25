@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
     files_dir = "/home/aalobaid/workspaces/Datasets/t2dv2";
     T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
     t2d.set_lang_tag("@en");
-    t2d.set_title_case(true);
+    t2d.set_title_case(false);
 
 //    t2d.get_ea_model("86747932_0_7532457067740920052.csv",1,true);
 
