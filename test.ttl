@@ -6,6 +6,12 @@
 @prefix dbp: <http://dbpedia.org/property/> .
 
 
+dbr:vplayer1 rdfs:label "vplayer1" .
+dbr:vplayer2 rdfs:label "vplayer2" .
+dbr:vplayer3 rdfs:label "vplayer4" .
+dbr:vplayer4 rdfs:label "vplayer5" .
+
+
 
 dbr:boxer1 rdfs:label "boxer1" .
 dbr:boxer2 rdfs:label "boxer2" .
@@ -40,6 +46,13 @@ dbr:volleyballp4 rdfs:label "volleyballp4" .
 dbr:footballp1 rdf:type dbo:FootballPlayer .
 dbr:basketballp1 rdf:type dbo:BasketballPlayer .
 dbr:volleyballp1 rdf:type  dbo:VolleyballPlayer .
+
+
+dbr:vplayer1 rdf:type dbo:VolleyballPlayer .
+dbr:vplayer2 rdf:type dbo:VolleyballPlayer .
+dbr:vplayer3 rdf:type dbo:VolleyballPlayer .
+dbr:vplayer4 rdf:type dbo:VolleyballPlayer .
+
 
 dbr:footballp2 rdf:type dbo:FootballPlayer .
 dbr:basketballp2 rdf:type dbo:BasketballPlayer .
