@@ -9,7 +9,6 @@ using namespace std;
 
 
 int main(int argc, char* argv[]) {
-
 //    string file_dir1="/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/5873256_0_7795190905731964989.csv";
 //    string file_dir2 = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/86747932_0_7532457067740920052.csv";
 //    unsigned int col_idx= 1;
@@ -27,7 +26,6 @@ int main(int argc, char* argv[]) {
 ////        cout <<" parse vertical\n";
 //    candidates = ea->annotate_column(p.parse_vertical(), col_idx, true, true);
 //    delete candidates;
-
 //    ea = new EntityAnn(m_hdt, "entity.log");
 //    ea->set_title_case(true);
 //    ea->set_language_tag("@en");
@@ -38,15 +36,7 @@ int main(int argc, char* argv[]) {
 ////        p.parse_vertical();
 ////        cout <<" parse vertical\n";
 //    candidates = ea->annotate_column(p2.parse_vertical(), col_idx, true, true);
-
-
-
-
-
-
-
 //    string fname = "86747932_0_7532457067740920052.csv";
-
 //    string file_dir = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/86747932_0_7532457067740920052.csv";
 //    unsigned int col_idx= 1;
 //    string m_hdt = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
@@ -66,13 +56,8 @@ int main(int argc, char* argv[]) {
 //    candidates = ea->annotate_column(p.parse_vertical(), col_idx, true, true);
 //    delete candidates;
 
-
-
-
-
 //    unsigned int col_idx= 1;
 //    string fname = "86747932_0_7532457067740920052.csv";
-
     string hdt_fpath, log_fpath, classes_fpath, files_dir;
     hdt_fpath = "/home/aalobaid/workspaces/Datasets/dbpedia_all.hdt";
     //    hdt_fpath = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
@@ -83,7 +68,7 @@ int main(int argc, char* argv[]) {
     files_dir = "/home/aalobaid/workspaces/Datasets/t2dv2";
     T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
     t2d.set_lang_tag("@en");
-    t2d.set_title_case(false);
+    t2d.set_title_case(true);
 
 //    t2d.get_ea_model("86747932_0_7532457067740920052.csv",1,true);
 
