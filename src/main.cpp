@@ -9,89 +9,81 @@ using namespace std;
 
 
 int main(int argc, char* argv[]) {
-//    string file_dir1="/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/5873256_0_7795190905731964989.csv";
-//    string file_dir2 = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/86747932_0_7532457067740920052.csv";
-//    unsigned int col_idx= 1;
-//    string m_hdt = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
-//    EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
-//    //ea->set_language_tag("@en");
-//    ea->set_title_case(true);
-//    ea->set_language_tag("@en");
-//    std::list<string>* candidates;
-//    Parser p(file_dir1);
-//    cout << "file_dir: "<<file_dir1<<endl;
-//    cout << "col_idx: "<<col_idx<<endl;
-////        cout << "pre parse:\n";
-////        p.parse_vertical();
-////        cout <<" parse vertical\n";
-//    candidates = ea->annotate_column(p.parse_vertical(), col_idx, true, true);
-//    delete candidates;
-//    ea = new EntityAnn(m_hdt, "entity.log");
-//    ea->set_title_case(true);
-//    ea->set_language_tag("@en");
-//    Parser p2(file_dir2);
-//    cout << "file_dir2: "<<file_dir2<<endl;
-//    cout << "col_idx: "<<col_idx<<endl;
-////        cout << "pre parse:\n";
-////        p.parse_vertical();
-////        cout <<" parse vertical\n";
-//    candidates = ea->annotate_column(p2.parse_vertical(), col_idx, true, true);
-//    string fname = "86747932_0_7532457067740920052.csv";
-//    string file_dir = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/86747932_0_7532457067740920052.csv";
-//    unsigned int col_idx= 1;
-//    string m_hdt = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
-//    EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
-//    //ea->set_language_tag("@en");
-//    ea->set_title_case(true);
-//    ea->set_language_tag("@en");
-//    std::list<string>* candidates;
-//    Parser p(file_dir);
-//    cout << "file_dir: "<<file_dir<<endl;
-//    cout << "col_idx: "<<col_idx<<endl;
-////        cout << "pre parse:\n";
-////        p.parse_vertical();
-////        cout <<" parse vertical\n";
-//    candidates = ea->annotate_column(p.parse_vertical(), col_idx, true, true);
-//    delete candidates;
-//    candidates = ea->annotate_column(p.parse_vertical(), col_idx, true, true);
-//    delete candidates;
-
-//    unsigned int col_idx= 1;
-//    string fname = "86747932_0_7532457067740920052.csv";
+    //    string file_dir1="/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/5873256_0_7795190905731964989.csv";
+    //    string file_dir2 = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/86747932_0_7532457067740920052.csv";
+    //    unsigned int col_idx= 1;
+    //    string m_hdt = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
+    //    EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
+    //    //ea->set_language_tag("@en");
+    //    ea->set_title_case(true);
+    //    ea->set_language_tag("@en");
+    //    std::list<string>* candidates;
+    //    Parser p(file_dir1);
+    //    cout << "file_dir: "<<file_dir1<<endl;
+    //    cout << "col_idx: "<<col_idx<<endl;
+    ////        cout << "pre parse:\n";
+    ////        p.parse_vertical();
+    ////        cout <<" parse vertical\n";
+    //    candidates = ea->annotate_column(p.parse_vertical(), col_idx, true, true);
+    //    delete candidates;
+    //    ea = new EntityAnn(m_hdt, "entity.log");
+    //    ea->set_title_case(true);
+    //    ea->set_language_tag("@en");
+    //    Parser p2(file_dir2);
+    //    cout << "file_dir2: "<<file_dir2<<endl;
+    //    cout << "col_idx: "<<col_idx<<endl;
+    ////        cout << "pre parse:\n";
+    ////        p.parse_vertical();
+    ////        cout <<" parse vertical\n";
+    //    candidates = ea->annotate_column(p2.parse_vertical(), col_idx, true, true);
+    //    string fname = "86747932_0_7532457067740920052.csv";
+    //    string file_dir = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/86747932_0_7532457067740920052.csv";
+    //    unsigned int col_idx= 1;
+    //    string m_hdt = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
+    //    EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
+    //    //ea->set_language_tag("@en");
+    //    ea->set_title_case(true);
+    //    ea->set_language_tag("@en");
+    //    std::list<string>* candidates;
+    //    Parser p(file_dir);
+    //    cout << "file_dir: "<<file_dir<<endl;
+    //    cout << "col_idx: "<<col_idx<<endl;
+    ////        cout << "pre parse:\n";
+    ////        p.parse_vertical();
+    ////        cout <<" parse vertical\n";
+    //    candidates = ea->annotate_column(p.parse_vertical(), col_idx, true, true);
+    //    delete candidates;
+    //    candidates = ea->annotate_column(p.parse_vertical(), col_idx, true, true);
+    //    delete candidates;
+    //    unsigned int col_idx= 1;
+    //    string fname = "86747932_0_7532457067740920052.csv";
     string hdt_fpath, log_fpath, classes_fpath, files_dir;
     hdt_fpath = "/home/aalobaid/workspaces/Datasets/dbpedia_all.hdt";
     //    hdt_fpath = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
     log_fpath = "testlog.log";
     classes_fpath = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/t2dv2/classes_with_col_GS_2016_04.csv";
     //classes_fpath = "datasets/t2dv2/classes_with_col_GS_2016_04.csv";
-//    files_dir = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2";
+    //    files_dir = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2";
     files_dir = "/home/aalobaid/workspaces/Datasets/t2dv2";
     T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
     t2d.set_lang_tag("@en");
     t2d.set_title_case(true);
-
-//    t2d.get_ea_model("86747932_0_7532457067740920052.csv",1,true);
-
-
-    t2d.run_entity_test_left_one_out_all();
-//    cout << "\n\n\n123\n";
-//    t2d.get_ea_model(fname, col_idx, true);
-//    t2d.get_ea_model("5873256_0_7795190905731964989.csv", col_idx, true);
-
-//    t2d.get_ea_model(fname, col_idx, true);
-//    t2d.get_ea_model(fname, col_idx, true);
-
-
-//    t2d.get_classes_and_columns();
-//    for(auto it=t2d.m_classes_col_names.cbegin();it!=t2d.m_classes_col_names.cend();it++){
-//        cout<< endl << it->first <<"\n";
-//        for(auto it2=it->second.cbegin();it2!=it->second.cend();it2++){
-//            cout << "\t\t" << it2->first << ", " << it2->second << endl;
-//        }
-//    }
+    //    t2d.get_ea_model("86747932_0_7532457067740920052.csv",1,true);
+    t2d.run_entity_test_left_one_out_all("alpha_leaveout_alpha_log.csv", "opt_alphas.csv", "acc_pred_class.csv");
+    //    cout << "\n\n\n123\n";
+    //    t2d.get_ea_model(fname, col_idx, true);
+    //    t2d.get_ea_model("5873256_0_7795190905731964989.csv", col_idx, true);
+    //    t2d.get_ea_model(fname, col_idx, true);
+    //    t2d.get_ea_model(fname, col_idx, true);
+    //    t2d.get_classes_and_columns();
+    //    for(auto it=t2d.m_classes_col_names.cbegin();it!=t2d.m_classes_col_names.cend();it++){
+    //        cout<< endl << it->first <<"\n";
+    //        for(auto it2=it->second.cbegin();it2!=it->second.cend();it2++){
+    //            cout << "\t\t" << it2->first << ", " << it2->second << endl;
+    //        }
+    //    }
     //t2d.run_test_on_a_file("http://dbpedia.org/ontology/Mountain", "1146722_1_7558140036342906956.csv", 0, 0, 1, 0.01);
-            //double run_test_on_a_file(string class_uri, string fname, unsigned int col_id, double from_alpha, double to_alpha, double step);
-
+    //double run_test_on_a_file(string class_uri, string fname, unsigned int col_id, double from_alpha, double to_alpha, double step);
     return 0;
 }
 

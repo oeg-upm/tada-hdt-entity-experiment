@@ -1,6 +1,6 @@
 #ifndef T2DV2_H
 #define T2DV2_H
- // pair
+// pair
 #include<stdio.h>
 #include<stdlib.h>
 #include <utility>
@@ -26,9 +26,9 @@ class T2Dv2 {
         string get_file_sep();
         std::list<string>* annotate_column(string fname, unsigned int col_idx, bool context, double alpha);
         EntityAnn* get_ea_model(string fname, unsigned int col_idx, bool context);
-        bool evaluate_column(string fname,string class_uri, unsigned int col_idx, bool context, double alpha);
-        bool evaluate_column_at_k(EntityAnn* ea,string class_uri, double alpha, unsigned long k_max);
-        long evaluate_column_get_k(EntityAnn* ea,string class_uri, double alpha);
+        bool evaluate_column(string fname, string class_uri, unsigned int col_idx, bool context, double alpha);
+        bool evaluate_column_at_k(EntityAnn* ea, string class_uri, double alpha, unsigned long k_max);
+        long evaluate_column_get_k(EntityAnn* ea, string class_uri, double alpha);
         void run_test(double from_alpha, double to_alpha, double step, unsigned long k); // focusing on the alphas range
         void run_test(double from_alpha, double to_alpha, double step); // focusing on the best k
         long get_k(string fname);
@@ -49,9 +49,9 @@ class T2Dv2 {
 
 
         void append_to_file(string fdir, string line);
-        void run_entity_test_left_one_out_class(string class_uri);
+        void run_entity_test_left_one_out_class(string class_uri, string);
         void run_entity_and_compute_alphas(); // compute the alpha ranges for each file
-        void run_entity_test_left_one_out_all();
+        void run_entity_test_left_one_out_all(string, string, string);
         void get_classes_and_columns();
         // returns half the distance of range of optimal alphas
         void run_entity_test_on_a_file(string class_uri, string fname, unsigned int col_id, double from_alpha, double to_alpha, double step);
@@ -61,16 +61,16 @@ class T2Dv2 {
         unordered_map <string, double> m_files_alpha;
         unordered_map <string, double> m_classes_pred_acc; // alpha prediction accuracy for each class
         unordered_map <string, double> m_classes_opt_alpha; // the optimal alpha
-//        bool m_verbose=true;
+        //        bool m_verbose=true;
     private:
         string m_classes_file_dir;
         string m_files_dir;
         unsigned long m_correct, m_incorrect, m_notfound;
         string m_file_sep="/";
-        HDT * m_hdt;
+        HDT* m_hdt;
         EasyLogger* m_logger;
-        std::unordered_map<string,long>* m_k;// the result of each file
-//        std::list<pair<double,double>>* alpha_ranges; // from_alpha, to_alpha
+        std::unordered_map<string, long>* m_k; // the result of each file
+        //        std::list<pair<double,double>>* alpha_ranges; // from_alpha, to_alpha
         double m_prec, m_rec, m_f1;
         string m_lang_tag;
         bool m_title_case = false;

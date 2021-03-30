@@ -24,10 +24,10 @@ string T2Dv2::get_file_sep() {
 }
 
 EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context) {
-//    cout << "HEADER get_ea_model\n";
+    //    cout << "HEADER get_ea_model\n";
     cout << "get EA Model fname: <"<<fname<<">\n";
     cout << "col_idx: <"<<col_idx<<">\n";
-//    cout << "context: <"<<context<<">\n";
+    //    cout << "context: <"<<context<<">\n";
     EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
     //ea->set_language_tag("@en");
     ea->set_title_case(m_title_case);
@@ -41,30 +41,30 @@ EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context)
     file_dir += fname;
     Parser p(file_dir);
     if(context) {
-//        cout << "title case: <"<<m_title_case<<">"<<endl;
-//        cout << "m_lang_tag: <"<<m_lang_tag<<">"<<endl;
-//        m_logger->log("m_title_case: ");
-//        m_logger->log("get_ea_model>  with context");
-//        m_logger->log("get_ea_model>  file_dir: "+file_dir);
-//        m_logger->log("get_ea_model>  col_idx: "+to_string(col_idx));
-//        cout << "file_dir: "<<file_dir<<endl;
-//        cout << "col_idx: "<<col_idx<<endl;
-//        cout << "pre parse:\n";
-//        p.parse_vertical();
-//        cout <<" parse vertical\n";
+        //        cout << "title case: <"<<m_title_case<<">"<<endl;
+        //        cout << "m_lang_tag: <"<<m_lang_tag<<">"<<endl;
+        //        m_logger->log("m_title_case: ");
+        //        m_logger->log("get_ea_model>  with context");
+        //        m_logger->log("get_ea_model>  file_dir: "+file_dir);
+        //        m_logger->log("get_ea_model>  col_idx: "+to_string(col_idx));
+        //        cout << "file_dir: "<<file_dir<<endl;
+        //        cout << "col_idx: "<<col_idx<<endl;
+        //        cout << "pre parse:\n";
+        //        p.parse_vertical();
+        //        cout <<" parse vertical\n";
         candidates = ea->annotate_column(p.parse_vertical(), col_idx, context, context);
-//        cout << "11out candidate: annotate_column\n";
-//        m_logger->log("11get_ea_model>  annotate_column post");
+        //        cout << "11out candidate: annotate_column\n";
+        //        m_logger->log("11get_ea_model>  annotate_column post");
     }
     else {
-//        cout << "000 pre No context out candidate: annotate_column\n";
-//        m_logger->log("000 get_ea_model>  without context");
+        //        cout << "000 pre No context out candidate: annotate_column\n";
+        //        m_logger->log("000 get_ea_model>  without context");
         candidates = ea->annotate_column(p.parse(), col_idx);
-//        cout << "000 post No context out candidate: annotate_column\n";
+        //        cout << "000 post No context out candidate: annotate_column\n";
     }
-//    cout << "000  finished\n";
-//    m_logger->log("000get_ea_model> num of candidates: "+to_string(candidates->size()));
-//    cout << "000 finished\n";
+    //    cout << "000  finished\n";
+    //    m_logger->log("000get_ea_model> num of candidates: "+to_string(candidates->size()));
+    //    cout << "000 finished\n";
     //    ea->get_graph()->print_nodes();
     //    delete ea;
     delete candidates;
@@ -660,7 +660,7 @@ void T2Dv2::get_classes_and_columns() {
     Parser p(m_classes_file_dir);
     data = p.parse_vertical();
     for(auto it=data->cbegin(); it!=data->cend(); it++) {
-        m_logger->log("run_test> in for loop with length "+to_string((*it)->size()));
+        //        m_logger->log("run_test> in for loop with length "+to_string((*it)->size()));
         col_iter = (*it)->begin();
         fname = clean_str(*col_iter);
         col_iter++;
@@ -668,27 +668,34 @@ void T2Dv2::get_classes_and_columns() {
         col_id = static_cast<unsigned int>(stoul(col_id_str));
         col_iter++;
         class_uri = clean_str(*col_iter);
-        if(m_classes_col_names.find(class_uri)!=m_classes_col_names.cend()) {
+        //        m_logger->log("fname: "+fname+" | col_id: "+col_id_str+" | class_uri: "+class_uri);
+        //        m_logger->log("class: "+class_uri);
+        if(m_classes_col_names.find(class_uri)==m_classes_col_names.cend()) {
+            //            m_logger->log("new");
             m_classes_col_names.insert(std::make_pair(class_uri, vector < pair< string, unsigned int > >()));
         }
+        //        else {
+        //            m_logger->log("already exists");
+        //        }
         m_classes_col_names[class_uri].push_back(std::make_pair(fname, col_id));
     }
 }
 
 void T2Dv2::run_entity_test_on_a_file(string class_uri, string fname, unsigned int col_id, double from_alpha, double to_alpha, double step) {
     string func_name = __func__;
-    long k;
+    long k = -2;
     EntityAnn* ea;
     double from_a, to_a;
-//    m_logger->log(func_name+"> pre get_ea_model");
+    m_logger->log(func_name+"> pre get_ea_model");
     ea = get_ea_model(fname, col_id, true);
-//    m_logger->log(func_name+"> post get_ea_model");
-//    m_logger->log("run_entity_test_on_a_file> got model of: "+fname);
+    m_logger->log(func_name+"> post get_ea_model");
+    m_logger->log("run_entity_test_on_a_file> got model of: "+fname);
+    m_logger->log("fname: "+fname+" | col_id:"+to_string(col_id)+" | class_uri: "+class_uri);
     from_a = to_a = -1;
     std::list<pair<double, double> > alphas_ranges;
     for(double a=from_alpha; a<=to_alpha; a+=step) {
         k = evaluate_column_get_k(ea, class_uri, a);
-        //m_logger->log("run_entity_test_on_a_file> got k of alpha "+to_string(a)+" k="+to_string(k));
+        m_logger->log("run_entity_test_on_a_file> got k of alpha "+to_string(a)+" k="+to_string(k));
         if(k==0) {
             if(from_a<0) {
                 from_a = a;
@@ -719,7 +726,13 @@ void T2Dv2::run_entity_test_on_a_file(string class_uri, string fname, unsigned i
     //        m_logger->log("and current computed alpha is: "+to_string(alphas_ranges.cbegin()->first + alphas_ranges.cbegin()->second / 2.0));
     //        throw 123;
     //    }
-    m_files_alpha[fname] = alphas_ranges.cbegin()->first + alphas_ranges.cbegin()->second / 2.0;
+    //    if(k < 0){
+    //        m_files_alpha[fname]
+    //    }
+    //    else{
+    if(k >=0 ) {
+        m_files_alpha[fname] = (alphas_ranges.cbegin()->first + alphas_ranges.cbegin()->second) / 2.0;
+    }
     delete ea;
 }
 
@@ -732,7 +745,7 @@ void T2Dv2::run_entity_and_compute_alphas() {
     if(m_classes_col_names.size()==0) {
         m_logger->log(func_name+"> classes and files and not yet fetched. Will be fetched now");
         get_classes_and_columns();
-//        m_logger->log(func_name+"> fetched");
+        //        m_logger->log(func_name+"> fetched");
     }
     for(auto it=m_classes_col_names.cbegin(); it!=m_classes_col_names.cend(); it++) {
         class_uri = it->first;
@@ -755,7 +768,8 @@ void T2Dv2::run_entity_and_compute_alphas() {
 }
 
 
-void T2Dv2::run_entity_test_left_one_out_class(string class_uri) {
+void T2Dv2::run_entity_test_left_one_out_class(string class_uri, string alphas_out_log) {
+    // alphas_out_log: is the file which contain the alpha applied to each one of the files
     string func_name = __func__;
     double alpha_sum, alpha_avg;
     string fname, tfname;
@@ -772,7 +786,7 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri) {
         col_id = vec_ptr->at(i).second;
         if(m_files_alpha.find(fname)!=m_files_alpha.cend()) { // out file has a correct alpha
             out_alpha = m_files_alpha[fname]; // store a copy of the alpha
-            class_alpha += out_alpha;  // to compute the optimal alpha
+            class_alpha += out_alpha;  // to compute the optimal alpha for the class
             num_files_with_opt_alpha +=1;
             m_files_alpha[fname] = -1; // to check later if the passed alpha resulted in a correct class
             alpha_sum = 0; // sum of the training alphas
@@ -785,11 +799,12 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri) {
                     num_training +=1;
                 }
             }
-            if(num_training>0){
+            if(num_training>0) {
                 alpha_avg = alpha_sum / num_training; // get average alpha
-                this->append_to_file("alpha_leaveout_alpha_log.csv", class_uri+","+fname+","+to_string(alpha_avg)+"\n");
-                run_entity_test_on_a_file(class_uri, fname, col_id, alpha_avg, alpha_avg+0.01, 2); // so it will just test on alpha_avg
-                if(m_files_alpha[fname] > -1) {
+                this->append_to_file(alphas_out_log, class_uri+","+fname+","+to_string(alpha_avg)+"\n");
+                //                this->append_to_file("alpha_leaveout_alpha_log.csv", class_uri+","+fname+","+to_string(alpha_avg)+"\n");
+                run_entity_test_on_a_file(class_uri, fname, col_id, alpha_avg, alpha_avg+0.01, 2); // so it will just test on alpha_avg only
+                if(m_files_alpha[fname] >= 0) {
                     corr +=1;
                 }
                 else {
@@ -798,13 +813,13 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri) {
                 m_files_alpha[fname] = out_alpha;// return the original alpha
                 acc_sum += (corr * 1.0)/(corr+incorr);
             } // training > 0
-            else{
-                m_logger->log(func_name+"> There is a single file with optimal alpha for the class: "+class_uri);
+            else {
+                m_logger->log(func_name+"> SINGLE: There is a single file with optimal alpha for the class: "+class_uri);
                 return; // this mean that there is only a single file in this class with an optimal alpha
             }
         } // if out file has a correct alpha
     }// leaf out for
-    if(vec_ptr->size() > 1){
+    if(vec_ptr->size() > 1) {
         class_alpha = class_alpha / (num_files_with_opt_alpha);
         m_classes_opt_alpha[class_uri] = class_alpha;
         m_classes_pred_acc[class_uri] = acc_sum / num_files_with_opt_alpha;
@@ -812,40 +827,44 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri) {
 }
 
 
-void T2Dv2::run_entity_test_left_one_out_all() {
+void T2Dv2::run_entity_test_left_one_out_all(string alphas_out_log, string alphas_opt, string class_acc) {
+    // alphas_out contains the alphas tested for each file
+    // the alphas_opt contains the optimal alpha for each class
+    // class_acc contains alpha prediction accuracy for leaving one out
     string class_uri;
     string func_name = __func__;
-
     if(m_classes_col_names.size()==0) {
         m_logger->log(func_name+"> classes and files and not yet fetched. Will be fetched now");
         get_classes_and_columns();
-//        m_logger->log(func_name+"> fetched");
+        //        m_logger->log(func_name+"> fetched");
     }
-    this->append_to_file("alpha_leaveout_alpha_log.csv", "class_uri,fname,alpha\n");
+    //    this->append_to_file("alpha_leaveout_alpha_log.csv", "class_uri,fname,alpha\n");
+    this->append_to_file(alphas_out_log, "class_uri,fname,alpha\n");
     run_entity_and_compute_alphas();
     cout << "=================alphas===============\n";
     for(auto it=m_classes_col_names.cbegin(); it!=m_classes_col_names.cend(); it++) {
         class_uri = it->first;
         cout<< endl << class_uri <<"\n";
-        run_entity_test_left_one_out_class(class_uri);
+        run_entity_test_left_one_out_class(class_uri, alphas_out_log);
     }
     string sep=",";
-    ofstream opt_alphas("opt_alphas.csv");
+    //    ofstream opt_alphas("opt_alphas.csv");
+    ofstream opt_alphas(alphas_opt);
     opt_alphas << "class" << sep << "alpha" << endl;
-    for(auto it=m_classes_opt_alpha.cbegin();it!=m_classes_opt_alpha.cend();it++){
+    for(auto it=m_classes_opt_alpha.cbegin(); it!=m_classes_opt_alpha.cend(); it++) {
         opt_alphas << it->first << sep << it->second << endl;
     }
     opt_alphas.close();
-
-    ofstream acc_class("acc_pred_class.csv");
+    //    ofstream acc_class("acc_pred_class.csv");
+    ofstream acc_class(class_acc);
     acc_class << "class" << sep << "accuracy" << endl;
-    for(auto it=m_classes_pred_acc.cbegin();it!=m_classes_pred_acc.cend();it++){
+    for(auto it=m_classes_pred_acc.cbegin(); it!=m_classes_pred_acc.cend(); it++) {
         acc_class << it->first << sep << it->second << endl;
     }
     acc_class.close();
 }
 
-void T2Dv2::append_to_file(string fdir, string line){
+void T2Dv2::append_to_file(string fdir, string line) {
     ofstream f(fdir, ofstream::out | ofstream::app);
     f << line;
     f.close();

@@ -1,3 +1,4 @@
+test_*.csv
 .venv
 .idea
 build
