@@ -653,7 +653,7 @@ void T2Dv2::run_test_properties(string properties_fdir, char mode) {
 
 
 void T2Dv2::get_classes_and_columns() {
-    std::list<std::list<string>*>*  data;
+    std::list<std::list<string>* >*  data;
     std::list<string>::iterator col_iter;
     string class_uri, col_id_str, fname;
     unsigned int col_id;
