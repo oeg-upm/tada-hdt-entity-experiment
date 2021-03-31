@@ -29,6 +29,7 @@ EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context)
     cout << "col_idx: <"<<col_idx<<">\n";
     //    cout << "context: <"<<context<<">\n";
     EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
+    //    cout << "new EA: \n";
     //ea->set_language_tag("@en");
     ea->set_title_case(m_title_case);
     ea->set_language_tag(m_lang_tag);
@@ -67,7 +68,12 @@ EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context)
     //    cout << "000 finished\n";
     //    ea->get_graph()->print_nodes();
     //    delete ea;
+    //    cout <<"delete candidate: \n";
+    //    if(candidates==nullptr) {
+    //        cout << "candidates is null\n";
+    //    }
     delete candidates;
+    //    cout << "candidates are deleted\n";
     return ea;
 }
 
@@ -290,12 +296,15 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step, unsigned l
         class_uri = clean_str(*col_iter);
         cout << "class_uri: " << class_uri<<endl;
         cout<< "col_idx: " << col_id_str <<endl;
-        cout<<"fname: "<<fname<<endl;
+        cout<<"2fname: "<<fname<<endl;
+        cout << "inner context: "<<m_inner_context<<endl;
         ea = get_ea_model(fname, col_id, m_inner_context);
+        cout << "Got the ea\n";
         //        ea = get_ea_model(fname, col_id, true);
         //        ea->get_graph()->print_nodes();
         from_a = to_a = -1;
         for(double a=from_alpha; a<=to_alpha; a+=step) {
+            cout << "a: "<<a<<endl;
             if(evaluate_column_at_k(ea, class_uri, a, k)) {
                 from_a = a;
                 from_a_list->push_back(a);
