@@ -1,7 +1,7 @@
 class,accuracy
 http://dbpedia.org/ontology/Museum,1
 http://dbpedia.org/ontology/Currency,1
-http://dbpedia.org/ontology/Election,-nan
+http://dbpedia.org/ontology/Election,0
 http://dbpedia.org/ontology/BaseballPlayer,1
 http://dbpedia.org/ontology/Airport,1
 http://dbpedia.org/ontology/Country,1
