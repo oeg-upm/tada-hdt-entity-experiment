@@ -4,11 +4,14 @@
 #include<stdio.h>
 #include "t2dv2.h"
 #include <tabular_parser/parser.h>
+#include <chrono>
 
+using namespace std::chrono;
 using namespace std;
 
 
 int main(int argc, char* argv[]) {
+    auto start = high_resolution_clock::now();
     //    string file_dir1="/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/5873256_0_7795190905731964989.csv";
     //    string file_dir2 = "/Users/aalobaid/workspaces/Pyworkspace/tada-gam/local_data/t2dv2/86747932_0_7532457067740920052.csv";
     //    unsigned int col_idx= 1;
@@ -84,6 +87,9 @@ int main(int argc, char* argv[]) {
     //    }
     //t2d.run_test_on_a_file("http://dbpedia.org/ontology/Mountain", "1146722_1_7558140036342906956.csv", 0, 0, 1, 0.01);
     //double run_test_on_a_file(string class_uri, string fname, unsigned int col_id, double from_alpha, double to_alpha, double step);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<minutes>(stop - start);
+    cout << "Total run took "<< duration.count() << " minutes "<< endl;
     return 0;
 }
 
