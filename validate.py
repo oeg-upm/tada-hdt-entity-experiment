@@ -3,6 +3,7 @@ import os
 import traceback
 
 alphas_fdir = "results/results-title-case/alpha_leaveout_alpha_log.csv"
+alphas_fdir = "alpha_leaveout_alpha_log.csv"
 gs_fdir = "datasets/t2dv2/classes_with_col_GS_2016_04.csv"
 
 # Contains the csv files of t2dv2
