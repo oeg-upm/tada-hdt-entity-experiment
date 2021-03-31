@@ -793,7 +793,9 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri, string alphas_o
         corr = incorr = 0;
         fname = vec_ptr->at(i).first;
         col_id = vec_ptr->at(i).second;
+        cout << "DEBUG: "<<i<<" fname: "<<fname<<endl;
         if(m_files_alpha.find(fname)!=m_files_alpha.cend()) { // out file has a correct alpha
+            cout <<"DEBUG: fname is found\n";
             out_alpha = m_files_alpha[fname]; // store a copy of the alpha
             class_alpha += out_alpha;  // to compute the optimal alpha for the class
             num_files_with_opt_alpha +=1;
@@ -829,10 +831,25 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri, string alphas_o
         } // if out file has a correct alpha
     }// leaf out for
     if(vec_ptr->size() > 1) {
-        class_alpha = class_alpha / (num_files_with_opt_alpha);
-        m_classes_opt_alpha[class_uri] = class_alpha;
-        m_classes_pred_acc[class_uri] = acc_sum / num_files_with_opt_alpha;
+        if(num_files_with_opt_alpha > 1) {
+            class_alpha = class_alpha / (num_files_with_opt_alpha);
+            m_classes_opt_alpha[class_uri] = class_alpha;
+            m_classes_pred_acc[class_uri] = acc_sum / num_files_with_opt_alpha;
+        }
+        else {
+            m_classes_pred_acc[class_uri] = 0;//acc_sum / num_files_with_opt_alpha;
+        }
     }
+    //    if(vec_ptr->size() > num_files_with_opt_alpha>0) {
+    //        class_alpha = class_alpha / (num_files_with_opt_alpha);
+    //        m_classes_opt_alpha[class_uri] = class_alpha;
+    //        m_classes_pred_acc[class_uri] = acc_sum / num_files_with_opt_alpha;
+    //    }
+    //    else {
+    //        //        class_alpha = class_alpha / (num_files_with_opt_alpha);
+    //        //        m_classes_opt_alpha[class_uri] = class_alpha;
+    //        m_classes_pred_acc[class_uri] = 0;//acc_sum / num_files_with_opt_alpha;
+    //    }
 }
 
 

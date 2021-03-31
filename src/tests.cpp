@@ -293,6 +293,22 @@ namespace {
         ASSERT_EQ(t2d.m_classes_pred_acc.find(class_uri), t2d.m_classes_pred_acc.cend());
     }
 
+    TEST(LeaveOneOut, AbsenceOfOptAlpha) {
+        string classes_fpath = "test_files/classes_test_notfound.csv";
+        T2Dv2 t2d(hdt_file, log_file, classes_fpath, "test_files");
+        t2d.set_title_case(true);
+        t2d.get_classes_and_columns();
+        string class_uri = dbo_prefix+"Boxer";
+        string fname1 = "notfound1.csv";
+        string fname2 = "notfound2.csv";
+        string alpha_log = "test_alpha_log.csv";
+        t2d.append_to_file(alpha_log, "=============== AbsenceOfOptAlpha =============");
+        t2d.run_entity_test_left_one_out_all("test_alpha_leaveout_alpha_log.csv", "test_opt_alphas.csv", "test_acc_pred_class.csv");
+        ASSERT_NE(t2d.m_classes_pred_acc.find(class_uri), t2d.m_classes_pred_acc.cend());
+        ASSERT_EQ(t2d.m_classes_pred_acc[class_uri], 0.0);
+        ASSERT_EQ(t2d.m_files_alpha.find(fname1), t2d.m_files_alpha.cend());
+        ASSERT_EQ(t2d.m_files_alpha.find(fname2), t2d.m_files_alpha.cend());
+    }
 }//namespace
 
 
