@@ -89,13 +89,21 @@ def annotate(fname, fdata):
             print("No JSON")
             traceback.print_exc()
             raise Exception("No JSON")
-    print("entities: ")
-    print(entities)
-    print("fname: ")
-    print(fname)
-    print("data: ")
-    print(fdata)
-    # if len(entities) == 0:
+
+    print("\n====================")
+    # if entities[0] == fdata["class_uri"]:
+    #     print("Correct")
+    # else:
+    if entities[0] != fdata["class_uri"]:
+        print("Incorrect")
+        print("entities: ")
+        print(entities)
+        print("fname: ")
+        print(fname)
+        print("data: ")
+        print(fdata)
+
+# if len(entities) == 0:
     #     return False
     return entities[0] == fdata["class_uri"]
     return entities
