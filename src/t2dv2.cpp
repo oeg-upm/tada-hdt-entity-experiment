@@ -690,6 +690,7 @@ void T2Dv2::get_classes_and_columns() {
     }
 }
 
+
 void T2Dv2::run_entity_test_on_a_file(string class_uri, string fname, unsigned int col_id, double from_alpha, double to_alpha, double step) {
     string func_name = __func__;
     long k = -2;
@@ -726,8 +727,12 @@ void T2Dv2::run_entity_test_on_a_file(string class_uri, string fname, unsigned i
     if(alphas_ranges.size()==0) {
         m_logger->log(func_name+"> unable to find a label for the entity column of the file: "+fname);
     }
-    if(alphas_ranges.size()>1) {
+    else if(alphas_ranges.size()>1) {
         m_logger->log("run_entity_test_on_a_file> alphabingo");
+        throw 123;
+    }
+    else {
+        m_files_alpha[fname] = (alphas_ranges.cbegin()->first + alphas_ranges.cbegin()->second) / 2.0;
     }
     //    if(m_files_alpha.find(fname)==m_files_alpha.cend()){
     //        m_logger->log("run_entity_test_on_a_file> Error: the file <"+fname+"> is already processed");
@@ -739,9 +744,9 @@ void T2Dv2::run_entity_test_on_a_file(string class_uri, string fname, unsigned i
     //        m_files_alpha[fname]
     //    }
     //    else{
-    if(k >=0 ) {
-        m_files_alpha[fname] = (alphas_ranges.cbegin()->first + alphas_ranges.cbegin()->second) / 2.0;
-    }
+    //    if(k >=0 ) {
+    //        m_files_alpha[fname] = (alphas_ranges.cbegin()->first + alphas_ranges.cbegin()->second) / 2.0;
+    //    }
     delete ea;
 }
 
