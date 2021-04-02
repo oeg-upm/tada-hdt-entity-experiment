@@ -57,11 +57,20 @@ def annotate(fname, fdata):
     :return: list of string (classes)
     """
     source_dir = os.path.join(t2dv2_dir, fname)
-    data = {
-        'col_id': fdata["col_id"],
-        'alpha': fdata["alpha"],
-        'k': 1
-    }
+    print("fdata: ")
+    print(fdata)
+
+    try:
+        data = {
+            'col_id': fdata["col_id"],
+            'alpha': fdata["alpha"],
+            'k': 1
+        }
+    except Exception as e:
+        print("Exception: ")
+        print(str(e))
+        traceback.print_exc()
+        raise Exception("ABC")
 
     files = [
         ('source', (
@@ -90,11 +99,11 @@ def annotate(fname, fdata):
             traceback.print_exc()
             raise Exception("No JSON")
 
-    print("\n====================")
     # if entities[0] == fdata["class_uri"]:
     #     print("Correct")
     # else:
     if entities[0] != fdata["class_uri"]:
+        print("\n====================")
         print("Incorrect")
         print("entities: ")
         print(entities)
