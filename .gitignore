@@ -2,7 +2,6 @@ testtest*.csv
 .venv
 .idea
 build
-#*.csv
 tada-hdt-entity-experiment.qbs.user.*
 datasets/t2dv2/data/*
 local_*
