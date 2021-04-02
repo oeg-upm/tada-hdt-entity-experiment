@@ -241,7 +241,7 @@ namespace {
         string fname = "AmateurBoxer1.csv";
         t2d.run_entity_and_compute_alphas();
         ASSERT_EQ(t2d.m_files_alpha.find("AmateurBoxer1.csv"), t2d.m_files_alpha.cend());
-        ASSERT_NE(t2d.m_files_alpha.find("boxer1.csv"), t2d.m_files_alpha.cend());
+        ASSERT_NE(t2d.m_files_alpha.find("Boxer1.csv"), t2d.m_files_alpha.cend());
         ASSERT_NE(t2d.m_files_alpha.find("volleyball1.csv"), t2d.m_files_alpha.cend());
         ASSERT_NE(t2d.m_files_alpha.find("volleyball2.csv"), t2d.m_files_alpha.cend());
     }
@@ -284,7 +284,7 @@ namespace {
         //t2d.set_title_case(true);
         t2d.get_classes_and_columns();
         string class_uri = dbo_prefix+"Boxer";
-        string fname_good = "boxer1.csv";
+        string fname_good = "Boxer1.csv";
         string fname_bad = "boxer2.csv";
         t2d.append_to_file(alpha_leave_out, "=============== TestOptimalAlphaSingleClassMultiWrong =============");
         t2d.run_entity_test_left_one_out_all(alpha_leave_out, alpha_opt, alpha_acc);
