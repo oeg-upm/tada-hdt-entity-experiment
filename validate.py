@@ -3,9 +3,9 @@ import os
 import traceback
 
 
-alphas_fdir = "alpha_leaveout_alpha_log.csv"
-acc_fdir = "acc_pred_class.csv"
-opt_alpha_fdir = "opt_alphas.csv"
+alphas_fdir = "results/original-case/alpha_leaveout_alpha_log.csv"
+acc_fdir = "results/original-case/acc_pred_class.csv"
+opt_alpha_fdir = "results/original-case/opt_alphas.csv"
 gs_fdir = "datasets/t2dv2/classes_with_col_GS_2016_04.csv"
 
 
