@@ -696,10 +696,10 @@ void T2Dv2::run_entity_test_on_a_file(string class_uri, string fname, unsigned i
     long k = -2;
     EntityAnn* ea;
     double from_a, to_a;
-    m_logger->log(func_name+"> pre get_ea_model");
+    //    m_logger->log(func_name+"> pre get_ea_model");
     ea = get_ea_model(fname, col_id, true);
-    m_logger->log(func_name+"> post get_ea_model");
-    m_logger->log("run_entity_test_on_a_file> got model of: "+fname);
+    //    m_logger->log(func_name+"> post get_ea_model");
+    //    m_logger->log("run_entity_test_on_a_file> got model of: "+fname);
     m_logger->log("fname: "+fname+" | col_id:"+to_string(col_id)+" | class_uri: "+class_uri);
     from_a = to_a = -1;
     std::list<pair<double, double> > alphas_ranges;
@@ -708,14 +708,26 @@ void T2Dv2::run_entity_test_on_a_file(string class_uri, string fname, unsigned i
         m_logger->log("run_entity_test_on_a_file> got k of alpha "+to_string(a)+" k="+to_string(k));
         if(k==0) {
             if(from_a<0) {
+                m_logger->log("got from_a: "+to_string(a));
                 from_a = a;
             }
             to_a = a;
+            if((a+step) > to_alpha) { // this is the last iteration, and the alpha is still good
+                alphas_ranges.push_back(make_pair(from_a, to_a));
+            }
         }
         else if(k<0) {
             break;
         }
-        else if(from_a >=0) { // going away from the optimal alpha
+        //        else{ // k > 1
+        //            if(from_a==-1){ // previous alpha was not optimal
+        //                // do nothing
+        //            }
+        //            else if(from_a >=0){ // previous alpha was optimal
+        //            }
+        //        }
+        //                else if(from_a >=0 || a==to_alpha) { // going away from the optimal alpha or it is the last one
+        else if(from_a >=0) { // going away from the optimal alpha or it is the last one
             alphas_ranges.push_back(make_pair(from_a, to_a));
             from_a = to_a = -1;
         }
@@ -787,47 +799,60 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri, string alphas_o
     string func_name = __func__;
     double alpha_sum, alpha_avg;
     string fname, tfname;
-    double out_alpha, class_alpha, acc_sum;
-    unsigned int col_id;
+    double out_alpha, class_alpha;
+    unsigned int col_id, is_corr;
     unsigned int corr, incorr, num_training, num_files_with_opt_alpha;
     vector < pair < string, unsigned int > >* vec_ptr = &m_classes_col_names[class_uri];   // to speed up
     class_alpha = 0;
     num_files_with_opt_alpha=0;
-    acc_sum=0;
+    corr = incorr = 0;
     for(size_t i=0; i<vec_ptr->size(); i++) { // leave out index
-        corr = incorr = 0;
         fname = vec_ptr->at(i).first;
         col_id = vec_ptr->at(i).second;
-        cout << "DEBUG: "<<i<<" fname: "<<fname<<endl;
+        //        cout << "DEBUG: "<<i<<" fname: "<<fname<<endl;
         if(m_files_alpha.find(fname)!=m_files_alpha.cend()) { // out file has a correct alpha
-            cout <<"DEBUG: fname is found\n";
+            //            cout <<"DEBUG: fname is found\n";
             out_alpha = m_files_alpha[fname]; // store a copy of the alpha
-            class_alpha += out_alpha;  // to compute the optimal alpha for the class
-            num_files_with_opt_alpha +=1;
-            m_files_alpha[fname] = -1; // to check later if the passed alpha resulted in a correct class
+            if(out_alpha < 0) {
+                cout << "ERROR: out_alpha is negative for "<<fname<<endl;
+                throw 239;
+            }
+            //            class_alpha += out_alpha;  // to compute the optimal alpha for the class
+            //            num_files_with_opt_alpha +=1;
+            //            m_files_alpha[fname] = -1; // to check later if the passed alpha resulted in a correct class
             alpha_sum = 0; // sum of the training alphas
             num_training = 0;
             for(size_t j=0; j<vec_ptr->size(); j++) {
-                tfname = vec_ptr->at(j).first;
-                //ensure that the training file is different than the testing file (out file)
-                if(i!=j && m_files_alpha.find(tfname)!=m_files_alpha.cend()) { // ensure the training file has an optimal alpha
-                    alpha_sum += m_files_alpha[tfname];
-                    num_training +=1;
+                if(j!=i) { //ensure that the training file is different than the testing file (out file)
+                    tfname = vec_ptr->at(j).first;
+                    if(m_files_alpha.find(tfname)!=m_files_alpha.cend()) { // ensure the training file has an optimal alpha
+                        alpha_sum += m_files_alpha[tfname];
+                        num_training +=1;
+                    }
                 }
             }
             if(num_training>0) {
+                class_alpha += out_alpha;  // to compute the optimal alpha for the class
+                num_files_with_opt_alpha +=1;
+                m_files_alpha[fname] = -1; // to check later if the passed alpha resulted in a correct class
                 alpha_avg = alpha_sum / num_training; // get average alpha
-                this->append_to_file(alphas_out_log, class_uri+","+fname+","+to_string(alpha_avg)+"\n");
+                if(alpha_avg < 0) {
+                    cout << "ERROR, avg alpha is negative for file: "<<fname<<endl;
+                    throw 12;
+                }
                 //                this->append_to_file("alpha_leaveout_alpha_log.csv", class_uri+","+fname+","+to_string(alpha_avg)+"\n");
                 run_entity_test_on_a_file(class_uri, fname, col_id, alpha_avg, alpha_avg+0.01, 2); // so it will just test on alpha_avg only
                 if(m_files_alpha[fname] >= 0) {
                     corr +=1;
+                    is_corr = 1;
                 }
                 else {
                     incorr +=1;
+                    is_corr = 0;
                 }
+                this->append_to_file(alphas_out_log, class_uri+","+fname+","+to_string(alpha_avg)+","+to_string(is_corr)+"\n");
                 m_files_alpha[fname] = out_alpha;// return the original alpha
-                acc_sum += (corr * 1.0)/(corr+incorr);
+                //acc_sum += (corr * 1.0)/(corr+incorr);
             } // training > 0
             else {
                 m_logger->log(func_name+"> SINGLE: There is a single file with optimal alpha for the class: "+class_uri);
@@ -835,15 +860,13 @@ void T2Dv2::run_entity_test_left_one_out_class(string class_uri, string alphas_o
             }
         } // if out file has a correct alpha
     }// leaf out for
-    if(vec_ptr->size() > 1) {
-        if(num_files_with_opt_alpha > 1) {
-            class_alpha = class_alpha / (num_files_with_opt_alpha);
-            m_classes_opt_alpha[class_uri] = class_alpha;
-            m_classes_pred_acc[class_uri] = acc_sum / num_files_with_opt_alpha;
-        }
-        else {
-            m_classes_pred_acc[class_uri] = 0;//acc_sum / num_files_with_opt_alpha;
-        }
+    if(num_files_with_opt_alpha > 1) {
+        class_alpha = class_alpha / (num_files_with_opt_alpha);
+        m_classes_opt_alpha[class_uri] = class_alpha;
+        m_classes_pred_acc[class_uri] = (corr * 1.0)/ (corr+incorr);//acc_sum / num_files_with_opt_alpha;
+    }
+    else {
+        m_classes_pred_acc[class_uri] = -1;//acc_sum / num_files_with_opt_alpha;
     }
     //    if(vec_ptr->size() > num_files_with_opt_alpha>0) {
     //        class_alpha = class_alpha / (num_files_with_opt_alpha);
@@ -870,7 +893,7 @@ void T2Dv2::run_entity_test_left_one_out_all(string alphas_out_log, string alpha
         //        m_logger->log(func_name+"> fetched");
     }
     //    this->append_to_file("alpha_leaveout_alpha_log.csv", "class_uri,fname,alpha\n");
-    this->append_to_file(alphas_out_log, "class_uri,fname,alpha\n");
+    this->append_to_file(alphas_out_log, "class_uri,fname,alpha,iscorrect\n");
     run_entity_and_compute_alphas();
     cout << "=================alphas===============\n";
     for(auto it=m_classes_col_names.cbegin(); it!=m_classes_col_names.cend(); it++) {
