@@ -923,3 +923,68 @@ void T2Dv2::append_to_file(string fdir, string line) {
     f << line;
     f.close();
 }
+
+
+
+
+
+
+
+void T2Dv2::run_entity_test_alpha(double alpha, string alphas_out) {
+    string class_uri, fname, line;
+    string func_name = __func__;
+    unsigned int colid;
+    long k;
+    int corr, incorr, notfound;
+    double prec, rec, f1;
+    corr = incorr = notfound = 0;
+    prec = rec = f1 = 0;
+    if(m_classes_col_names.size()==0) {
+        m_logger->log(func_name+"> classes and files and not yet fetched. Will be fetched now");
+        get_classes_and_columns();
+    }
+    this->append_to_file(alphas_out, "class_uri,fname,colid,alpha,k\n");
+    cout << "=================Single Alpha===============\n";
+    for(auto it=m_classes_col_names.cbegin(); it!=m_classes_col_names.cend(); it++) {
+        class_uri = it->first;
+        cout<< endl << class_uri <<"\n";
+        for(auto it2=it->second.cbegin(); it2!=it->second.cend(); it2++) {
+            fname = it2->first;
+            colid = it2->second;
+            k = run_entity_test_on_a_file_with_alpha(class_uri, fname, colid, alpha);
+            cout << "\t" << fname << " => " << k << endl;
+            line = class_uri+","+fname+","+to_string(colid)+","+to_string(alpha)+","+to_string(k)+"\n";
+            this->append_to_file(alphas_out, line);
+            if(k==0) {
+                corr +=1;
+            }
+            else if(k>0 || k==-2) {
+                incorr +=1;
+            }
+            else {
+                notfound +=1;
+            }
+        }
+    }
+    cout << "Correct: "<< corr <<endl;
+    cout << "Incorrect: "<< incorr <<endl;
+    cout << "Notfound: "<< notfound <<endl;
+    prec = corr * 1.0 / (corr+incorr);
+    rec = corr * 1.0 / (corr+notfound);
+    f1 = 2.0 * prec * rec / (prec + rec);
+    cout << "Precision: "<< prec <<endl;
+    cout << "Recall: "<<rec<<endl;
+    cout << "F1: "<<f1<<endl;
+}
+
+
+long T2Dv2::run_entity_test_on_a_file_with_alpha(string class_uri, string fname, unsigned int col_id, double alpha) {
+    string func_name = __func__;
+    long k;
+    EntityAnn* ea;
+    ea = get_ea_model(fname, col_id, true);
+    m_logger->log("fname: "+fname+" | col_id:"+to_string(col_id)+" | class_uri: "+class_uri);
+    k = evaluate_column_get_k(ea, class_uri, alpha);
+    delete ea;
+    return k;
+}

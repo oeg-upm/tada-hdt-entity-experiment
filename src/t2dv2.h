@@ -62,6 +62,9 @@ class T2Dv2 {
         unordered_map <string, double> m_classes_pred_acc; // alpha prediction accuracy for each class
         unordered_map <string, double> m_classes_opt_alpha; // the optimal alpha
         //        bool m_verbose=true;
+        void run_entity_test_alpha(double alpha, string alphas_out);
+        long run_entity_test_on_a_file_with_alpha(string class_uri, string fname, unsigned int col_id, double alpha);
+
     private:
         string m_classes_file_dir;
         string m_files_dir;

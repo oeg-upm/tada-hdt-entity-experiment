@@ -308,6 +308,37 @@ namespace {
         ASSERT_EQ(t2d.m_files_alpha.find(fname2), t2d.m_files_alpha.cend());
     }
 
+    TEST(SingleAlpha, TestSingleFileCorr) {
+        string classes_fpath = "test_files/classes_test.csv";
+        T2Dv2 t2d(hdt_file, log_file, classes_fpath, "test_files");
+        t2d.get_classes_and_columns();
+        string class_uri1 = dbo_prefix+"AmateurBoxer";
+        string class_uri2 = dbo_prefix+"Boxer";
+        string class_uri3 = dbo_prefix+"Athlete";
+        string fname1 = "AmateurBoxer1.csv";
+        string fname2 = "Boxer1.csv";
+        string fname3 = "Athletes1.csv";
+        unsigned long k1, k2, k3;
+        k1 = t2d.run_entity_test_on_a_file_with_alpha(class_uri1, fname1, 0, 0.4);
+        k2 = t2d.run_entity_test_on_a_file_with_alpha(class_uri2, fname2, 0, 0.4);
+        k3 = t2d.run_entity_test_on_a_file_with_alpha(class_uri3, fname3, 0, 0.8);
+        ASSERT_EQ(k1, 0);
+        ASSERT_EQ(k2, 0);
+        ASSERT_EQ(k3, 0);
+    }
+
+    TEST(SingleAlpha, TestSingleFileNotfound) {
+        string classes_fpath = "test_files/classes_test_notfound.csv";
+        T2Dv2 t2d(hdt_file, log_file, classes_fpath, "test_files");
+        t2d.get_classes_and_columns();
+        string class_uri = dbo_prefix+"AmateurBoxer";
+        string fname = "Notfound.csv";
+        unsigned long k;
+        k = t2d.run_entity_test_on_a_file_with_alpha(class_uri, fname, 0, 0.4);
+        ASSERT_EQ(k, -1);
+    }
+
+
 }//namespace
 
 
