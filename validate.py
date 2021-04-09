@@ -3,11 +3,12 @@ import os
 import traceback
 
 
-alphas_fdir = "results/original/alpha_leaveout_alpha_log.csv"
-acc_fdir = "results/original/acc_pred_class.csv"
-opt_alpha_fdir = "results/original/opt_alphas.csv"
+alphas_fdir = "results/optimal_alpha/original/alpha_leaveout_alpha_log.csv"
+acc_fdir = "results/optimal_alpha/original/acc_pred_class.csv"
+opt_alpha_fdir = "results/optimal_alpha/original/opt_alphas.csv"
 gs_fdir = "datasets/t2dv2/classes_with_col_GS_2016_04.csv"
 
+single_alphas_fdir = "results/predicted_alphas"
 
 # Contains the csv files of t2dv2
 t2dv2_dir = os.environ["T2Dv2_dir"]
@@ -229,8 +230,42 @@ def validate():
     print("total files: "+str(tot_files)+" and avg: "+str(tot_files/len(class_scores.keys())))
 
 
+def compute_scores_for_ks(ks=[0,2,4]):
+    """
+    k is starting from 0 and not from one
+    :param ks:
+    :return:
+    """
+    f = open("single_alphas_fdir", "r")
+    d = dict()
+    for k in ks:
+        d[k] = {
+            'corr': 0,
+            'incorr': 0,
+            'notfound': 0
+        }
+    for idx, line in enumerate(f.readlines()):
+        if idx == 0:
+            continue
+
+        class_uri, fname, colid, alpha, pred_k=  line.strip().split(',')
+        for k in ks:
+            if pred_k == -1:
+                d[k]['notfound'] += 1
+            elif pred_k == -2 or pred_k > k:
+                d[k]['incorr'] += 1
+            elif pred_k <= k and pred_k >=0:
+                d[k]['corr'] += 1
+            else:
+                print("ERROR: ")
+                print(pred_k)
+                raise Exception("unhandeled case")
+
+
+
+
 if __name__ == '__main__':
     # data = {'class_uri': 'http://dbpedia.org/ontology/Lake', 'alpha': '0.368182', 'col_id': '0'}
     # fname = "3887681_0_7938589465814037992.csv"
     # annotate(fname, data)
-    validate()
+    # validate()
