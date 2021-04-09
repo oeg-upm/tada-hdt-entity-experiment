@@ -8,7 +8,9 @@ acc_fdir = "results/optimal_alpha/original/acc_pred_class.csv"
 opt_alpha_fdir = "results/optimal_alpha/original/opt_alphas.csv"
 gs_fdir = "datasets/t2dv2/classes_with_col_GS_2016_04.csv"
 
-single_alphas_fdir = "results/predicted_alphas"
+# single_alphas_fdir = "results/predicted_alpha/single_alphas_title_case.csv"
+single_alphas_fdir = "results/predicted_alpha/single_alphas_original.csv"
+
 
 # Contains the csv files of t2dv2
 t2dv2_dir = os.environ["T2Dv2_dir"]
@@ -236,7 +238,7 @@ def compute_scores_for_ks(ks=[0,2,4]):
     :param ks:
     :return:
     """
-    f = open("single_alphas_fdir", "r")
+    f = open(single_alphas_fdir, "r")
     d = dict()
     for k in ks:
         d[k] = {
@@ -248,7 +250,8 @@ def compute_scores_for_ks(ks=[0,2,4]):
         if idx == 0:
             continue
 
-        class_uri, fname, colid, alpha, pred_k=  line.strip().split(',')
+        class_uri, fname, colid, alpha, str_k=  line.strip().split(',')
+        pred_k = float(str_k)
         for k in ks:
             if pred_k == -1:
                 d[k]['notfound'] += 1
@@ -259,9 +262,24 @@ def compute_scores_for_ks(ks=[0,2,4]):
             else:
                 print("ERROR: ")
                 print(pred_k)
-                raise Exception("unhandeled case")
+                raise Exception("un handeled case")
+    for k in ks:
+        print("\n==================")
+        print("k: %d: " % (k+1))
+        print("\tcorr: %d" % d[k]['corr'])
+        print("\tincorr: %d" % d[k]['incorr'])
+        print("\tnotfound: %d" % d[k]['notfound'])
 
+        prec = d[k]['corr'] * 1.0 /(d[k]['corr'] + d[k]['incorr'])
+        rec = d[k]['corr'] * 1.0 /(d[k]['corr'] + d[k]['notfound'])
+        f1 = 2.0 * prec * rec / (rec+prec)
 
+        # prec = round(prec, 2)
+        # rec = round(rec, 2)
+        # f1 = round(f1, 2)
+        print("\tprecision: %f (%f)" % (prec, round(prec, 2)))
+        print("\trecall: %f (%f)" % (rec, round(rec, 2)))
+        print("\tF1: %f (%f)" % (f1, round(f1, 2)))
 
 
 if __name__ == '__main__':
@@ -269,3 +287,4 @@ if __name__ == '__main__':
     # fname = "3887681_0_7938589465814037992.csv"
     # annotate(fname, data)
     # validate()
+    compute_scores_for_ks()
