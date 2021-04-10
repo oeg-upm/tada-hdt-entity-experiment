@@ -64,7 +64,7 @@ class T2Dv2 {
         //        bool m_verbose=true;
         void run_entity_test_alpha(double alpha, string alphas_out);
         long run_entity_test_on_a_file_with_alpha(string class_uri, string fname, unsigned int col_id, double alpha);
-
+        double m_ambiguitity_penalty=1; // 1 means no penalty, 1 < means ambiguitity penalty
     private:
         string m_classes_file_dir;
         string m_files_dir;
@@ -78,7 +78,6 @@ class T2Dv2 {
         string m_lang_tag;
         bool m_title_case = false;
         bool m_inner_context = true;
-
 
         const string rdf_type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
         const string rdfs_subclassof = "http://www.w3.org/2000/01/rdf-schema#subClassOf";

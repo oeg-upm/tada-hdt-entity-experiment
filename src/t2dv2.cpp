@@ -29,6 +29,7 @@ EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context)
     cout << "col_idx: <"<<col_idx<<">\n";
     //    cout << "context: <"<<context<<">\n";
     EntityAnn* ea = new EntityAnn(m_hdt, "entity.log");
+    ea->m_ambiguitity_penalty = this->m_ambiguitity_penalty;
     //    cout << "new EA: \n";
     //ea->set_language_tag("@en");
     ea->set_title_case(m_title_case);

@@ -22,10 +22,11 @@ int main(int argc, char* argv[]) {
     files_dir = "/home/aalobaid/workspaces/Datasets/t2dv2";
     T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
     t2d.set_lang_tag("@en");
-    //t2d.set_title_case(true);
-    t2d.set_title_case(false);
-    //t2d.run_entity_test_left_one_out_all("alpha_leaveout_alpha_log.csv", "opt_alphas.csv", "acc_pred_class.csv");
-    t2d.run_entity_test_alpha(0.45, "single_alphas_original.csv");
+    t2d.set_title_case(true);
+    t2d.m_ambiguitity_penalty=2;
+    //t2d.set_title_case(false);
+    t2d.run_entity_test_left_one_out_all("alpha_leaveout_alpha_log.csv", "opt_alphas.csv", "acc_pred_class.csv");
+    //t2d.run_entity_test_alpha(0.45, "single_alphas_original.csv");
     //    string fname ="33242247_1_7232384061498591611.csv";
     //    string class_uri="http://dbpedia.org/ontology/Election";
     //    long k;
