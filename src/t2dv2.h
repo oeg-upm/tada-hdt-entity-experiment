@@ -65,6 +65,16 @@ class T2Dv2 {
         void run_entity_test_alpha(double alpha, string alphas_out);
         long run_entity_test_on_a_file_with_alpha(string class_uri, string fname, unsigned int col_id, double alpha);
         double m_ambiguitity_penalty=1; // 1 means no penalty, 1 < means ambiguitity penalty
+
+        //        string type_uri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+        //        string subclassof_uri = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
+        //        string label_uri = "http://www.w3.org/2000/01/rdf-schema#label";
+
+        string rdf_type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+        string rdfs_subclassof = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
+        string rdfs_label = "http://www.w3.org/2000/01/rdf-schema#label";
+
+
     private:
         string m_classes_file_dir;
         string m_files_dir;
@@ -79,9 +89,9 @@ class T2Dv2 {
         bool m_title_case = false;
         bool m_inner_context = true;
 
-        const string rdf_type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
-        const string rdfs_subclassof = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
-        const string rdfs_label = "http://www.w3.org/2000/01/rdf-schema#label";
+        //        const string rdf_type = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+        //        const string rdfs_subclassof = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
+        //        const string rdfs_label = "http://www.w3.org/2000/01/rdf-schema#label";
 
 };
 

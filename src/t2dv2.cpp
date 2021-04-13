@@ -34,6 +34,8 @@ EntityAnn* T2Dv2::get_ea_model(string fname, unsigned int col_idx, bool context)
     //ea->set_language_tag("@en");
     ea->set_title_case(m_title_case);
     ea->set_language_tag(m_lang_tag);
+    ea->subclassof_uri = rdfs_subclassof;
+    ea->type_uri = rdf_type;
     string file_dir;
     std::list<string>* candidates;
     file_dir = m_files_dir;
@@ -573,6 +575,8 @@ void T2Dv2::run_test_properties(string properties_fdir, char mode) {
     EntityAnn* ea =  new EntityAnn(m_hdt, "entity.log", 0);
     ea->set_title_case(m_title_case);
     ea->set_language_tag(m_lang_tag);
+    ea->subclassof_uri = rdfs_subclassof;
+    ea->type_uri = rdf_type;
     Parser p(properties_fdir);
     data = p.parse_vertical();
     Parser* p2;
