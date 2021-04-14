@@ -11,6 +11,7 @@ using namespace std;
 
 
 int main(int argc, char* argv[]) {
+	long k;
     auto start = high_resolution_clock::now();
     string hdt_fpath, log_fpath, classes_fpath, files_dir;
     hdt_fpath = "/home/ahmad/datasets/wikidata20200309.hdt";
@@ -36,7 +37,18 @@ int main(int argc, char* argv[]) {
     string rdfs_subclassof = "http://www.wikidata.org/prop/direct/P279";
     t2d.rdf_type = rdf_type;
     t2d.rdfs_subclassof = rdfs_subclassof;
-    t2d.run_entity_test_left_one_out_all("wiki_alpha_leaveout_alpha_log.csv", "wiki_opt_alphas.csv", "wiki_acc_pred_class.csv");
+    //t2d.run_entity_test_left_one_out_all("wiki_alpha_leaveout_alpha_log.csv", "wiki_opt_alphas.csv", "wiki_acc_pred_class.csv");
+            t2d.run_test(0.0, 1.0, 0.01);
+        k=0;
+        cout << "====> K = " <<k+1<<endl;
+        t2d.compute_scores(k);
+        k+=2;
+        cout << "====> K = " <<k+1<<endl;
+        t2d.compute_scores(k);
+        k+=2;
+        cout << "====> K = " <<k+1<<endl;
+        t2d.compute_scores(k);
+    
     //    t2d.subclassof_uri = "http://www.wikidata.org/prop/direct/P279";
     //    t2d.type_uri = "http://www.wikidata.org/prop/direct/P31";
     // end
