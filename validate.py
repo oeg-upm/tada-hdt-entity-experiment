@@ -3,13 +3,19 @@ import os
 import traceback
 
 
-alphas_fdir = "results/optimal_alpha/original/alpha_leaveout_alpha_log.csv"
-acc_fdir = "results/optimal_alpha/original/acc_pred_class.csv"
-opt_alpha_fdir = "results/optimal_alpha/original/opt_alphas.csv"
+results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/wiki_ambig_val_1/optimal_alpha/title_case'
+
+alphas_fdir = os.path.join(results_base,"alpha_leaveout_alpha_log.csv")
+acc_fdir = os.path.join(results_base,"acc_pred_class.csv")
+opt_alpha_fdir = os.path.join(results_base,"opt_alphas.csv")
+#alphas_fdir = "results/optimal_alpha/original/alpha_leaveout_alpha_log.csv"
+#acc_fdir = "results/optimal_alpha/original/acc_pred_class.csv"
+#opt_alpha_fdir = "results/optimal_alpha/original/opt_alphas.csv"
 gs_fdir = "datasets/t2dv2/classes_with_col_GS_2016_04.csv"
 
 # single_alphas_fdir = "results/predicted_alpha/single_alphas_title_case.csv"
-single_alphas_fdir = "results/predicted_alpha/single_alphas_original.csv"
+#single_alphas_fdir = "results/predicted_alpha/single_alphas_original.csv"
+single_alphas_fdir = os.path.join(results_base, "single_alphas.csv")
 
 
 # Contains the csv files of t2dv2
@@ -232,6 +238,112 @@ def validate():
     print("total files: "+str(tot_files)+" and avg: "+str(tot_files/len(class_scores.keys())))
 
 
+def get_cross_val_score():
+    """
+    :return:
+    """
+    corr = 0
+    incorr = 0
+    nottested = 0
+    singleclass_files = []
+    j = fetch_alphas_and_files(alphas_fdir, gs_fdir)
+    class_scores = dict()
+    for fname in j.keys():
+        if 'alpha' in j[fname]:
+            class_uri = j[fname]["class_uri"]
+            # ann_corr = annotate(fname, j[fname])
+            if class_uri not in class_scores:
+                class_scores[class_uri] = {"correct": [], "incorrect": [], "mismatch2": [], "mismatch1": []}
+            if j[fname]["iscorr"] == "1":
+                corr += 1
+                if j[fname]["iscorr"] != "1":
+                    print("mismatch1: "+fname)
+                    print(j[fname])
+                    class_scores[class_uri]["mismatch1"].append(fname)
+                else:
+                    class_scores[class_uri]["correct"].append(fname)
+            else:
+                incorr += 1
+                if j[fname]["iscorr"] != "0":
+                    print("mismatch2: "+fname)
+                    print(j[fname])
+                    class_scores[class_uri]["mismatch2"].append(fname)
+                else:
+                    class_scores[class_uri]["incorrect"].append(fname)
+
+        else:
+            # print(j[fname])
+            nottested += 1
+            singleclass_files.append(fname)
+
+    print("corr: %d\n incorr: %d\nnot tested: %d\n" % (corr, incorr, nottested))
+    print("single class files: ")
+    print(singleclass_files)
+
+    f = open(acc_fdir)
+    for line in f.readlines():
+        class_uri, acc = line.strip().split(",")
+        if class_uri in class_scores:
+            corr = len(class_scores[class_uri]["correct"])
+            incorr = len(class_scores[class_uri]["incorrect"])
+            tot = corr+incorr
+            if tot > 0:
+                comp_acc = (corr * 1.0) / tot
+            else:
+                comp_acc = -1.0
+            class_scores[class_uri]["f_acc"] = round(float(acc), 2) # file-stored accuracy
+            class_scores[class_uri]["c_acc"] = round(comp_acc, 2)  # computed accuracy
+            class_scores[class_uri]["total"] = tot
+            if class_scores[class_uri]["f_acc"] != class_scores[class_uri]["c_acc"]:
+                print("Accuracy mismatch: "+class_uri)
+                print(class_scores[class_uri])
+                raise Exception("Mismatch")
+
+    f.close()
+
+    f = open(opt_alpha_fdir)
+    for line in f.readlines():
+        class_uri, opt_alpha = line.strip().split(",")
+        if class_uri in class_scores:
+            class_scores[class_uri]["opt_alpha"] = round(float(opt_alpha), 2)
+
+    print("\n\n===================")
+    for class_uri in class_scores.keys():
+        print(class_uri)
+        print("\t correct: "+str(class_scores[class_uri]["correct"]))
+        print("\t incorrect: "+str(class_scores[class_uri]["incorrect"]))
+        print("\t accuracy: " + str(class_scores[class_uri]["c_acc"]))
+        print("\t total: " + str(class_scores[class_uri]["total"]))
+        print("\t opt_alpha: " + str(class_scores[class_uri]["opt_alpha"]))
+
+        # print("\t mismatch1: "+str(class_scores[class_uri]["mismatch1"]))
+        # print("\t mismatch2: "+str(class_scores[class_uri]["mismatch2"]))
+        print("\n")
+
+    print("\n\n%%%%%%%%%%%%%%%%%%% Latex")
+    tot_alpha = 0.0
+    tot_acc = 0.0
+    tot_files = 0
+    for class_uri in class_scores.keys():
+        cls_uri = class_uri.replace("http://dbpedia.org/ontology/", "dbo:")
+        print("%s & %s & %s & %d \\\\ " % (cls_uri, str(class_scores[class_uri]["c_acc"]), str(class_scores[class_uri]["opt_alpha"]), class_scores[class_uri]["total"]))
+        tot_acc += class_scores[class_uri]["c_acc"]
+        tot_alpha += class_scores[class_uri]["opt_alpha"]
+        tot_files += class_scores[class_uri]["total"]
+        # print(class_uri)
+        # print("\t correct: "+str(class_scores[class_uri]["correct"]))
+        # print("\t incorrect: "+str(class_scores[class_uri]["incorrect"]))
+        # print("\t accuracy: " + str(class_scores[class_uri]["c_acc"]))
+        # print("\t total: " + str(class_scores[class_uri]["total"]))
+        # print("\t mismatch1: "+str(class_scores[class_uri]["mismatch1"]))
+        # print("\t mismatch2: "+str(class_scores[class_uri]["mismatch2"]))
+    print("\n")
+    print("total acc: "+str(tot_acc)+" and avg: "+str(tot_acc/len(class_scores.keys())))
+    print("total alpha: "+str(tot_alpha)+" and avg: "+str(tot_alpha/len(class_scores.keys())))
+    print("total files: "+str(tot_files)+" and avg: "+str(tot_files/len(class_scores.keys())))
+
+
+
 def compute_scores_for_ks(ks=[0,2,4]):
     """
     k is starting from 0 and not from one
@@ -286,5 +398,6 @@ if __name__ == '__main__':
     # data = {'class_uri': 'http://dbpedia.org/ontology/Lake', 'alpha': '0.368182', 'col_id': '0'}
     # fname = "3887681_0_7938589465814037992.csv"
     # annotate(fname, data)
-    # validate()
-    compute_scores_for_ks()
+    # validate() # for DBpedia because it verify with tada-web
+    get_cross_val_score() # the same as validate() but it does not double check with tada-web
+    # compute_scores_for_ks()
