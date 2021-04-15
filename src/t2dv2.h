@@ -9,6 +9,11 @@
 #include<list>
 #include<unordered_map>
 
+#include <sys/stat.h>
+#include <unistd.h>
+#include <string>
+#include <fstream>
+
 #include<tada_hdt_entity/entity.h>
 #include <easy_logger/easy_logger.h>
 #include <HDTManager.hpp>
@@ -65,6 +70,8 @@ class T2Dv2 {
 
         void run_entity_test_alpha(double alpha, string alphas_out);
         long run_entity_test_on_a_file_with_alpha(string class_uri, string fname, unsigned int col_id, double alpha);
+        bool file_exists(const string& fdir);
+
         double m_ambiguitity_penalty=1; // 1 means no penalty, 1 < means ambiguitity penalty
 
         //        string type_uri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";

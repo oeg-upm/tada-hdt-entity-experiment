@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) {
     hdt_fpath = "/home/aalobaid/workspaces/Datasets/dbpedia_all.hdt";
     //    hdt_fpath = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
     log_fpath = "testlog.log";
+    //    classes_fpath = "/home/aalobaid/workspaces/Datasets/semtab2019/Round 2/gt/CTA_Round2_gt.csv";
     classes_fpath = "/home/aalobaid/workspaces/Datasets/semtab2019/Round 1/gt/CTA_Round1_gt.csv";
     //    classes_fpath = "/home/ahmad/tada-hdt-entity-experiment/datasets/t2dv2/classes_with_col_GS_2016_04_wikidata.csv";
     //classes_fpath = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/t2dv2/classes_with_col_GS_2016_04.csv";
@@ -26,6 +27,7 @@ int main(int argc, char* argv[]) {
     //files_dir = "/home/ahmad/tada-gam/local_data/t2dv2";
     //files_dir = "/home/aalobaid/workspaces/Datasets/t2dv2";
     //files_dir = "/home/aalobaid/workspaces/Datasets/t2dv2";
+    //files_dir ="/home/aalobaid/workspaces/Datasets/semtab2019/Round 2/tables";
     files_dir ="/home/aalobaid/workspaces/Datasets/semtab2019/Round 1/tables";
     T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
     t2d.set_lang_tag("@en");

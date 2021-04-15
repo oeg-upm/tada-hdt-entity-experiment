@@ -672,7 +672,7 @@ void T2Dv2::run_test_properties(string properties_fdir, char mode) {
 void T2Dv2::get_classes_and_columns() {
     std::list<std::list<string>* >*  data;
     std::list<string>::iterator col_iter;
-    string class_uri, col_id_str, fname;
+    string class_uri, col_id_str, fname, file_dir;
     unsigned int col_id;
     Parser p(m_classes_file_dir);
     data = p.parse_vertical();
@@ -688,6 +688,15 @@ void T2Dv2::get_classes_and_columns() {
         class_uri = clean_str(*col_iter);
         //        m_logger->log("fname: "+fname+" | col_id: "+col_id_str+" | class_uri: "+class_uri);
         //        m_logger->log("class: "+class_uri);
+        file_dir = m_files_dir;
+        if(file_dir.substr(m_files_dir.length()-m_file_sep.length()) != m_file_sep) {
+            file_dir += m_file_sep;
+        }
+        file_dir += fname;
+        if(!file_exists(file_dir)) {
+            cout<< "File not found: "<<file_dir<<endl;
+            continue;
+        }
         if(m_classes_col_names.find(class_uri)==m_classes_col_names.cend()) {
             //            m_logger->log("new");
             m_classes_col_names.insert(std::make_pair(class_uri, vector < pair< string, unsigned int > >()));
@@ -996,6 +1005,22 @@ long T2Dv2::run_entity_test_on_a_file_with_alpha(string class_uri, string fname,
     k = evaluate_column_get_k(ea, class_uri, alpha);
     delete ea;
     return k;
+}
+
+
+bool T2Dv2::file_exists(const string& fdir) {
+    // source: https://stackoverflow.com/questions/12774207/fastest-way-to-check-if-a-file-exist-using-standard-c-c11-c
+    //    struct stat buffer;
+    //    return (stat (fdir.c_str(), &buffer) == 0);
+    if (FILE* file = fopen(fdir.c_str(), "r")) {
+        fclose(file);
+        return true;
+    }
+    else {
+        cout <<"\n\nnot found: "<<fdir<<endl;
+        return false;
+    }
+    //    return true;
 }
 
 
