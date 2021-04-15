@@ -419,15 +419,18 @@ void T2Dv2::run_test(double from_alpha, double to_alpha, double step) {
 string T2Dv2::clean_str(string s) {
     string c;
     unsigned long start_idx=0, len;
+    len = s.size();
     if(s[0]=='"') {
         start_idx=1;
+        len--;
     }
     if(s[s.length()-1]=='"') {
-        len = s.length()-1-start_idx;
+        len--;
+        //len = s.length()-1-start_idx;
     }
-    else {
-        len = s.length();
-    }
+    //    else {
+    //        len = s.length();
+    //    }
     c = s.substr(start_idx, len);
     //    cout << "<"<<s<<"> to <"<<c<<">\n";
     return c;
@@ -677,6 +680,7 @@ void T2Dv2::get_classes_and_columns() {
         //        m_logger->log("run_test> in for loop with length "+to_string((*it)->size()));
         col_iter = (*it)->begin();
         fname = clean_str(*col_iter);
+        fname+=m_fname_additional_prefix;
         col_iter++;
         col_id_str = clean_str(*col_iter);
         col_id = static_cast<unsigned int>(stoul(col_id_str));
@@ -993,3 +997,5 @@ long T2Dv2::run_entity_test_on_a_file_with_alpha(string class_uri, string fname,
     delete ea;
     return k;
 }
+
+

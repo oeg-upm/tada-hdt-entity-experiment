@@ -62,6 +62,7 @@ class T2Dv2 {
         unordered_map <string, double> m_classes_pred_acc; // alpha prediction accuracy for each class
         unordered_map <string, double> m_classes_opt_alpha; // the optimal alpha
         //        bool m_verbose=true;
+
         void run_entity_test_alpha(double alpha, string alphas_out);
         long run_entity_test_on_a_file_with_alpha(string class_uri, string fname, unsigned int col_id, double alpha);
         double m_ambiguitity_penalty=1; // 1 means no penalty, 1 < means ambiguitity penalty
@@ -74,7 +75,7 @@ class T2Dv2 {
         string rdfs_subclassof = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
         string rdfs_label = "http://www.w3.org/2000/01/rdf-schema#label";
 
-
+        string m_fname_additional_prefix=""; // for semtab, the file extension is not included. So we append it here.
     private:
         string m_classes_file_dir;
         string m_files_dir;

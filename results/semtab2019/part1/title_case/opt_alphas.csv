@@ -1,0 +1,17 @@
+class,alpha
+http://dbpedia.org/ontology/BaseballPlayer,0.493333
+http://dbpedia.org/ontology/Airport,0.4675
+http://dbpedia.org/ontology/Country,0.38375
+http://dbpedia.org/ontology/Mountain,0.48
+http://dbpedia.org/ontology/City,0.46
+http://dbpedia.org/ontology/Person,0.441875
+http://dbpedia.org/ontology/Animal,0.6625
+http://dbpedia.org/ontology/Newspaper,0.443333
+http://dbpedia.org/ontology/Scientist,0.285
+http://dbpedia.org/ontology/Plant,0.4925
+http://dbpedia.org/ontology/Currency,0.4025
+http://dbpedia.org/ontology/Film,0.419
+http://dbpedia.org/ontology/Lake,0.4175
+http://dbpedia.org/ontology/Genre,0.442
+http://dbpedia.org/ontology/Company,0.455833
+http://dbpedia.org/ontology/VideoGame,0.409
