@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
     //    hdt_fpath = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt/dbpedia_all.hdt";
     log_fpath = "testlog.log";
     //    classes_fpath = "/home/aalobaid/workspaces/Datasets/semtab2019/Round 2/gt/CTA_Round2_gt.csv";
-    classes_fpath = "/home/aalobaid/workspaces/Datasets/semtab2019/Round 1/gt/CTA_Round1_gt.csv";
+    classes_fpath = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/semtab-2019/classes_with_col_GS_semtab_2019_CTA_Round1_gt.csv";
     //    classes_fpath = "/home/ahmad/tada-hdt-entity-experiment/datasets/t2dv2/classes_with_col_GS_2016_04_wikidata.csv";
     //classes_fpath = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/t2dv2/classes_with_col_GS_2016_04.csv";
     //classes_fpath = "datasets/t2dv2/classes_with_col_GS_2016_04.csv";
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     //t2d.set_title_case(false);
     t2d.m_fname_additional_prefix=".csv";  // for sem tab
     t2d.run_entity_test_left_one_out_all("alpha_leaveout_alpha_log.csv", "opt_alphas.csv", "acc_pred_class.csv");
-    //t2d.run_entity_test_alpha(0.45, "single_alphas_original.csv");
+    //t2d.run_entity_test_alpha(0.45, "single_alphas_title_case.csv");
     // Wikidata
     //    string rdf_type = "http://www.wikidata.org/prop/direct/P31";
     //    string rdfs_subclassof = "http://www.wikidata.org/prop/direct/P279";
