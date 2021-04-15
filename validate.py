@@ -2,8 +2,10 @@ import requests
 import os
 import traceback
 
+#results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/dbp_ambig_val_1/optimal_alpha/title-case'
+# results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/semtab2019/part1/title_case'
+results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/semtab2019/round1'
 
-results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/wiki_ambig_val_1/optimal_alpha/title_case'
 
 alphas_fdir = os.path.join(results_base,"alpha_leaveout_alpha_log.csv")
 acc_fdir = os.path.join(results_base,"acc_pred_class.csv")
@@ -11,7 +13,9 @@ opt_alpha_fdir = os.path.join(results_base,"opt_alphas.csv")
 #alphas_fdir = "results/optimal_alpha/original/alpha_leaveout_alpha_log.csv"
 #acc_fdir = "results/optimal_alpha/original/acc_pred_class.csv"
 #opt_alpha_fdir = "results/optimal_alpha/original/opt_alphas.csv"
-gs_fdir = "datasets/t2dv2/classes_with_col_GS_2016_04.csv"
+#gs_fdir = "datasets/t2dv2/classes_with_col_GS_2016_04.csv"
+gs_fdir = "/Users/aalobaid/Downloads/data/Round 1/gt/CTA_Round1_gt.csv"
+
 
 # single_alphas_fdir = "results/predicted_alpha/single_alphas_title_case.csv"
 #single_alphas_fdir = "results/predicted_alpha/single_alphas_original.csv"
@@ -36,7 +40,10 @@ def fetch_alphas_and_files(alphas_file, gs_file):
     for idx, line in enumerate(f.readlines()):
         if idx == 0:
             continue
-        class_uri, fname, alpha, iscorr = line.strip().split(",")
+        class_uri, fname, alpha, iscorr = line.replace('"', '').strip().split(",")
+        # class_uri, fname, alpha, iscorr = line.strip().split(",")
+        if fname[-4:] != ".csv":
+            fname += ".csv"
 
         j[fname] = {
             "class_uri": class_uri,
@@ -48,7 +55,9 @@ def fetch_alphas_and_files(alphas_file, gs_file):
     f = open(gs_file)
 
     for line in f.readlines():
-        fname, colid, class_uri = line.split(",")
+        fname, colid, class_uri = line.replace('"', '').strip().split(",")
+        if fname[-4:] != ".csv":
+            fname += ".csv"
         if fname in j:
             j[fname]["col_id"] = colid
         else:
@@ -295,8 +304,9 @@ def get_cross_val_score():
             class_scores[class_uri]["c_acc"] = round(comp_acc, 2)  # computed accuracy
             class_scores[class_uri]["total"] = tot
             if class_scores[class_uri]["f_acc"] != class_scores[class_uri]["c_acc"]:
-                print("Accuracy mismatch: "+class_uri)
+                print("\n\nAccuracy mismatch: "+class_uri)
                 print(class_scores[class_uri])
+                print("\n\n")
                 raise Exception("Mismatch")
 
     f.close()
@@ -343,7 +353,6 @@ def get_cross_val_score():
     print("total files: "+str(tot_files)+" and avg: "+str(tot_files/len(class_scores.keys())))
 
 
-
 def compute_scores_for_ks(ks=[0,2,4]):
     """
     k is starting from 0 and not from one
@@ -362,7 +371,7 @@ def compute_scores_for_ks(ks=[0,2,4]):
         if idx == 0:
             continue
 
-        class_uri, fname, colid, alpha, str_k=  line.strip().split(',')
+        class_uri, fname, colid, alpha, str_k = line.strip().split(',')
         pred_k = float(str_k)
         for k in ks:
             if pred_k == -1:
