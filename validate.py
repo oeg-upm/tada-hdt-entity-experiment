@@ -3,8 +3,8 @@ import os
 import traceback
 
 #results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/dbp_ambig_val_1/optimal_alpha/title-case'
-# results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/semtab2019/part1/title_case'
-results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/semtab2019/round1'
+# results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/semtab2019/round1/title_case'
+results_base = '/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/results/semtab2019/round1/original'
 
 
 alphas_fdir = os.path.join(results_base,"alpha_leaveout_alpha_log.csv")
@@ -14,7 +14,7 @@ opt_alpha_fdir = os.path.join(results_base,"opt_alphas.csv")
 #acc_fdir = "results/optimal_alpha/original/acc_pred_class.csv"
 #opt_alpha_fdir = "results/optimal_alpha/original/opt_alphas.csv"
 #gs_fdir = "datasets/t2dv2/classes_with_col_GS_2016_04.csv"
-gs_fdir = "/Users/aalobaid/Downloads/data/Round 1/gt/CTA_Round1_gt.csv"
+gs_fdir = "/Users/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/semtab-2019/classes_with_col_GS_semtab_2019_CTA_Round1_gt.csv"
 
 
 # single_alphas_fdir = "results/predicted_alpha/single_alphas_title_case.csv"
@@ -408,5 +408,5 @@ if __name__ == '__main__':
     # fname = "3887681_0_7938589465814037992.csv"
     # annotate(fname, data)
     # validate() # for DBpedia because it verify with tada-web
-    get_cross_val_score() # the same as validate() but it does not double check with tada-web
+    get_cross_val_score()  # the same as validate() but it does not double check with tada-web
     # compute_scores_for_ks()
