@@ -31,8 +31,8 @@ int main(int argc, char* argv[]) {
     files_dir ="/home/aalobaid/workspaces/Datasets/semtab2019/Round 1/tables";
     T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
     t2d.set_lang_tag("@en");
-    //    t2d.set_title_case(false);
-    t2d.set_title_case(true);
+    t2d.set_title_case(false);
+    //t2d.set_title_case(true);
     //    t2d.m_ambiguitity_penalty=2;
     //t2d.set_title_case(false);
     t2d.m_fname_additional_prefix=".csv";  // for sem tab
