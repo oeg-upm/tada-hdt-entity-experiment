@@ -604,12 +604,15 @@ void T2Dv2::run_test_properties(string properties_fdir, char mode) {
             properties = ea->annotate_entity_property_heuristic(p2->parse_vertical(), class_uri, prop_id);
         }
         else if(mode==RESTRICTIVE_MODE || mode==HEURISTIC_MODE) { // restrictive or heuristic
+            //cout << "annotate_entity_property_column BEFORE"<<endl;
             properties = ea->annotate_entity_property_column(p2->parse_vertical(), col_id, prop_id);
+            //cout << "annotate_entity_property_column AFTER"<<endl;
         }
         else {
             cout << "ERROR: Wrong mode: <"<<mode<<">\n";
             return ;
         }
+        //cout<< "num properties: "<<properties->size()<<endl;
         k=0;
         added=false;
         key = fname+"--"+col_id_str;
@@ -623,6 +626,7 @@ void T2Dv2::run_test_properties(string properties_fdir, char mode) {
             }
         }
         if(mode==HEURISTIC_MODE && added==false) {
+            //cout << "INSIDE the HEURISTIC";
             properties = ea->annotate_entity_property_heuristic(p2->parse_vertical(), class_uri, prop_id);
             k=0;
             for(auto it2=properties->cbegin(); it2!=properties->cend(); it2++, k++) {
@@ -633,11 +637,18 @@ void T2Dv2::run_test_properties(string properties_fdir, char mode) {
                     break;
                 }
             }
+            //cout << "OUTSIDE\n";
         }//if heuristic
         if(added==false) {
-            m_logger->log("run_test_properties> notfound fname: "+fname+" col_id: "+col_id_str+" top property: "+properties->front());
+            //cout << "ADDED FALSE\n";
+            property_uri = "No property";
+            if(properties->size()>0) {
+                property_uri = properties->front();
+            }
+            m_logger->log("run_test_properties> notfound fname: "+fname+" col_id: "+col_id_str+" top property: "+property_uri);
             m_k->insert({key, -1});
         }
+        //cout << "pre delete: "<<endl;
         delete properties;
         delete p2;
     }

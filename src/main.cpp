@@ -49,9 +49,12 @@ int main(int argc, char* argv[]) {
     //    //    t2d.run_test(0.0, 1.0, 0.01);
     // END TEST Subject Column
     // START properties test
-    mode = T2Dv2::RESTRICTIVE_MODE;
+    //    mode = T2Dv2::RESTRICTIVE_MODE;
+    //    mode = T2Dv2::PERMISSIVE_MODE;
+    mode = T2Dv2::HEURISTIC_MODE;
     string properties_file;
-    properties_file = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/semtab-2019/";
+    //    properties_file = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/semtab-2019/test.csv";
+    properties_file = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/semtab-2019/semtab_properties_Round1_gt_entity.csv";
     cout<< "hdt_file: "<<hdt_fpath<<endl;
     cout<< "classes_file: "<<classes_fpath<<endl;
     cout<< "files_dir: "<<files_dir<<endl;
