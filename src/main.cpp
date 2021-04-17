@@ -12,6 +12,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 	long k;
+    char mode;
     auto start = high_resolution_clock::now();
     string hdt_fpath, log_fpath, classes_fpath, files_dir;
     //hdt_fpath = "/home/ahmad/datasets/wikidata20200309.hdt";
@@ -29,22 +30,51 @@ int main(int argc, char* argv[]) {
     //files_dir = "/home/aalobaid/workspaces/Datasets/t2dv2";
     //files_dir ="/home/aalobaid/workspaces/Datasets/semtab2019/Round 2/tables";
     files_dir ="/home/aalobaid/workspaces/Datasets/semtab2019/Round 1/tables";
-    T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
-    t2d.set_lang_tag("@en");
-    t2d.set_title_case(false);
-    //t2d.set_title_case(true);
-    //    t2d.m_ambiguitity_penalty=2;
-    //t2d.set_title_case(false);
-    t2d.m_fname_additional_prefix=".csv";  // for sem tab
-    t2d.run_entity_test_left_one_out_all("alpha_leaveout_alpha_log.csv", "opt_alphas.csv", "acc_pred_class.csv");
-    //t2d.run_entity_test_alpha(0.45, "single_alphas_title_case.csv");
-    // Wikidata
-    //    string rdf_type = "http://www.wikidata.org/prop/direct/P31";
-    //    string rdfs_subclassof = "http://www.wikidata.org/prop/direct/P279";
-    //    t2d.rdf_type = rdf_type;
-    //    t2d.rdfs_subclassof = rdfs_subclassof;
-    //t2d.run_entity_test_left_one_out_all("wiki_alpha_leaveout_alpha_log.csv", "wiki_opt_alphas.csv", "wiki_acc_pred_class.csv");
-    //    t2d.run_test(0.0, 1.0, 0.01);
+    // START TEST SUBJECT Column
+    //    T2Dv2 t2d(hdt_fpath, log_fpath, classes_fpath, files_dir);
+    //    t2d.set_lang_tag("@en");
+    //    t2d.set_title_case(false);
+    //    //t2d.set_title_case(true);
+    //    //    t2d.m_ambiguitity_penalty=2;
+    //    //t2d.set_title_case(false);
+    //    t2d.m_fname_additional_prefix=".csv";  // for sem tab
+    //    t2d.run_entity_test_left_one_out_all("alpha_leaveout_alpha_log.csv", "opt_alphas.csv", "acc_pred_class.csv");
+    //    //t2d.run_entity_test_alpha(0.45, "single_alphas_title_case.csv");
+    //    // Wikidata
+    //    //    string rdf_type = "http://www.wikidata.org/prop/direct/P31";
+    //    //    string rdfs_subclassof = "http://www.wikidata.org/prop/direct/P279";
+    //    //    t2d.rdf_type = rdf_type;
+    //    //    t2d.rdfs_subclassof = rdfs_subclassof;
+    //    //t2d.run_entity_test_left_one_out_all("wiki_alpha_leaveout_alpha_log.csv", "wiki_opt_alphas.csv", "wiki_acc_pred_class.csv");
+    //    //    t2d.run_test(0.0, 1.0, 0.01);
+    // END TEST Subject Column
+    // START properties test
+    mode = T2Dv2::RESTRICTIVE_MODE;
+    string properties_file;
+    properties_file = "/home/aalobaid/workspaces/Cworkspace/tada-hdt-entity-experiment/datasets/semtab-2019/";
+    cout<< "hdt_file: "<<hdt_fpath<<endl;
+    cout<< "classes_file: "<<classes_fpath<<endl;
+    cout<< "files_dir: "<<files_dir<<endl;
+    cout << "properties_file: "<<properties_file<<endl;
+    cout << "mode: "<<mode<<endl;
+    T2Dv2* t2d = new T2Dv2(hdt_fpath, log_fpath, classes_fpath, files_dir);
+    t2d->set_lang_tag("@en");
+    t2d->set_title_case(true);
+    t2d->run_test_properties(properties_file, mode);
+    k=0;
+    cout << "====> K = " <<k+1<<endl;
+    t2d->compute_scores(k);
+    k+=2;
+    cout << "====> K = " <<k+1<<endl;
+    t2d->compute_scores(k);
+    k+=2;
+    cout << "====> K = " <<k+1<<endl;
+    t2d->compute_scores(k);
+    //        t2d->print_k();
+    //        printf ("It took me %ul clicks (%.2f seconds).\n",t,(static_cast<double>(t))/CLOCKS_PER_SEC);
+    //        printf ("It took me %d clicks (%.2f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
+    t2d->print_k(1);
+    // END of properties test
     //    k=0;
     //    cout << "====> K = " <<k+1<<endl;
     //    t2d.compute_scores(k);

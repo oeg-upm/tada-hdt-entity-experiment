@@ -594,6 +594,7 @@ void T2Dv2::run_test_properties(string properties_fdir, char mode) {
         property_uri = clean_str(*col_iter);
         col_iter++;
         col_id_str = clean_str(*col_iter);
+        //cout << "col_id_str: "<<col_id_str<<endl;
         col_id = static_cast<unsigned int>(stol(col_id_str));
         col_iter++;
         col_id_str = clean_str(*col_iter);
