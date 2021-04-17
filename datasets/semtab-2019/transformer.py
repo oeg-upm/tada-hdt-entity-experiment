@@ -13,7 +13,6 @@ def clean_str(s):
 
     if s[0] == '"':
         start_idx += 1
-        l -= 1
 
     if s[-1] == '"':
         l -= 1
