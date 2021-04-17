@@ -1,5 +1,4 @@
 class_uri,fname,alpha,iscorrect
-class_uri,fname,alpha,iscorrect
 http://dbpedia.org/ontology/Plant,63450419_0_8012592961815711786.csv,0.470000,1
 http://dbpedia.org/ontology/Plant,88523363_0_8180214313099580515.csv,0.515000,1
 http://dbpedia.org/ontology/Animal,60319454_0_3938426910282115527.csv,0.850000,0

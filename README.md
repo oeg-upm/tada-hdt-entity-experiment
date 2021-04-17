@@ -49,7 +49,7 @@ and then compile and run `make;bin/tadaeexperiment`
 
 
 
-## SemTab2019 findings
+## SemTab2019 findings (not for subject column)
 * Not class to Table per se. It is class to column. So it is not exactly subject column
 * Some of them has properties which might not be natural or used e.g., *14380604_4_3329235705746762392	2	http://dbpedia.org/ontology/PopulatedPlace* Looking at the data, the class would natually be called Country, rather than PopulatedPlace So the Gold Standard does not seem to be manually annotated. Probably it is annotated by a tool and approved by one or more experts.
 * In the gold standard, *16767252_0_2409448375013995751	3	http://dbpedia.org/ontology/Person* while that column should be MovieDirector. 
